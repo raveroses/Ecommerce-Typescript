@@ -1,5 +1,6 @@
 import Header from "./Component/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./Page/Home";
 function App() {
   return (
     // <div className="font-Afacad ">
@@ -7,7 +8,9 @@ function App() {
 
     <BrowserRouter>
       <Header />
-      <Routes>{/* <Route path="/" element={< />}>   */}</Routes>
+      <Routes>
+        <Route index element={<Home />} />
+      </Routes>
     </BrowserRouter>
   );
 }
