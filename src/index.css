@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 @import "tailwindcss";
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}

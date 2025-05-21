@@ -4,7 +4,7 @@ type List = {
   item: string[];
 };
 
-const UnorderList = (element: List) => {
+const Navbar = (element: List) => {
   const [click, setClick] = useState<string>("");
   const handleClickedSign = (item: string) => {
     setClick(item);
@@ -26,4 +26,4 @@ const UnorderList = (element: List) => {
 
   return <>{ListMap}</>;
 };
-export default UnorderList;
+export default Navbar;

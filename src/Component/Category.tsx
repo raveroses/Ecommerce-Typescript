@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Autoplay, Scrollbar } from "swiper/modules";
+import { Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 type placeholders = string[];
 const category: placeholders = [
@@ -11,25 +11,20 @@ const category: placeholders = [
   "Tablets",
   "Furniture",
   "Groceries",
-  "Home-Decoration",
+  "Decoration",
   "Vehicles",
 ];
 const Category = () => {
   const categoryMapping = category.map((cat, index) => {
     return (
-      <Swiper
-        modules={[Scrollbar]}
-        spaceBetween={50}
-        slidesPerView={5}
-        className=""
+      <li
+        key={index}
+        className="sw-[100px] cursor-pointer 
+        md:px-[5px] md:py-[5px] text-center py-[6px]
+         md:text-left px-[7px] rounded text-[14px] md:text-[15px] hover:bg-gray-300"
       >
-        <li
-          key={index}
-          className="cursor-pointer hover:bg-gray-300 px-[5px] py-[5px] rounded"
-        >
-          <NavLink to={"/"}>{cat}</NavLink>
-        </li>
-      </Swiper>
+        <NavLink to={"/"}>{cat}</NavLink>
+      </li>
     );
   });
 
@@ -39,10 +34,12 @@ const Category = () => {
     "/images/main-image3.jpg",
   ];
   return (
-    <div className="md:px-[50px] lg:px-[90px] flex lg:flex-row md:flex-row flex-col md:gap-[100px] lg:gap-[170px]">
+    <div className="mt-[30px] md:mt-0 md:px-[90px] px-[30px] flex md:flex-row flex-col md:gap-[120px] gap-0">
       <ul
-        className="list-none flex flex-row md:flex-col lg:flex-col gap-[0px] md:gap-[10px] lg:gap-[10px] 
-      font-semibold text-[16px] pr-[60px] py-[40px] md:border-r-2 md:border-gray-200  boder-none lg:border-r-2 lg:border-gray-200"
+        className="scrollbar-hide w-full md:w-[30%] overflow-x-auto list-none flex 
+        flex-row md:flex-col gap-[7px] md:gap-[10px]
+      font-semibold text-[16px] md:pr-[90px] py-[10px] md:border-r-2 
+      md:border-gray-200 boder-none lg:border-gray-200 mx-[4px]"
       >
         {categoryMapping}
       </ul>
@@ -53,18 +50,20 @@ const Category = () => {
         spaceBetween={50}
         slidesPerView={1}
         pagination={{ clickable: true }}
-        className="mt-[50px]"
+        breakpoints={{
+          320: { spaceBetween: 10, slidesPerView: 1 },
+          768: { spaceBetween: 50, slidesPerView: 1 },
+        }}
+        className="md:mt-[50px] w-full mt-[15px]"
       >
         {imageMapping.map((image, index) => {
           return (
             <SwiperSlide key={index}>
-              {
-                <img
-                  src={`${image}`}
-                  alt="image-Array"
-                  className="w-[700px] h-[300px]"
-                />
-              }
+              <img
+                src={`${image}`}
+                alt="image-Array"
+                className=" md:w-[700px] md:h-[300px] w-full h-[150px] m-auto"
+              />
             </SwiperSlide>
           );
         })}

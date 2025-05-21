@@ -3,7 +3,7 @@ import { FaHeart } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
-import UnorderList from "./UnorderList";
+import UnorderList from "./Navbar";
 import { NavLink } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 const Header = () => {
@@ -28,14 +28,14 @@ const Header = () => {
           <UnorderList item={["Home", "Contact", "Sign Up", "Shop"]} />
         </ul>
 
-        <div className="flex justify-between items-center gap-[20px] md:gap-[30px] lg:gap-[30px]">
-          <form className="hidden md:flex lg:flex md:flex-row lg:flex-row gap-[10px] bg-[#F5F5F5] px-[4px] py-[6px] w-[50%] rounded">
+        <div className="relative flex justify-between items-center gap-[20px] md:gap-[30px] lg:gap-[30px]">
+          <form className=" md:flex lg:flex md:flex-row lg:flex-row gap-[10px] bg-[#F5F5F5] px-[4px] py-[6px] w-[50%] rounded">
             <input
               type="text"
               placeholder="What are you looking for?"
-              className="outline-none border-none placeholder:text-[13px] w-[80%]"
+              className="outline-none border-none placeholder:text-[13px] w-[80%] absolute top-[50px] right-[120px]"
             />
-            <button className="block">
+            <button className="md:block hidden">
               <FaSearch />
             </button>
           </form>
