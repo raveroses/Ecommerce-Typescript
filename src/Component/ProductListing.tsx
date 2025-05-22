@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type flashsales = {
   dayNumber: number;
@@ -6,29 +6,44 @@ type flashsales = {
 };
 
 const ProductListing = () => {
-  const datee = new Date();
-  datee.setDate(20);
-  datee.setHours(12);
-  datee.setMinutes(60);
-  datee.setSeconds(60);
+  const [dateSetting, setDateSetting] = useState<Record<string, number>>({
+    dayLeft: 0,
+    hoursLeft: 0,
+    minutesLeft: 0,
+    secondsLeft: 0,
+  });
   const flashSalesCountDown: flashsales[] = [
-    { dayNumber: datee.getDate(), dayString: "Days" },
-    { dayNumber: datee.getHours(), dayString: "Hours" },
-    { dayNumber: datee.getMinutes(), dayString: "Minutes" },
-    { dayNumber: datee.getSeconds(), dayString: "Seconds" },
+    { dayNumber: dateSetting.dayLeft, dayString: "Days" },
+    { dayNumber: dateSetting.hoursLeft, dayString: "Hours" },
+    { dayNumber: dateSetting.minutesLeft, dayString: "Minutes" },
+    { dayNumber: dateSetting.secondsLeft, dayString: "Seconds" },
   ];
 
-  //   const handleCountDown = () => {
-  //     const subtractedDate = new Date();
-  //     console.log(subtractedDate.getDate() - datee.getDate());
-  //   };
-  const subtractedDate = new Date();
-  console.log(subtractedDate.getDate() - datee.getDate());
-  //   useEffect(() => {
-  //     setInterval(() => {
-  //       handleCountDown();
-  //     }, 2000);
-  //   }, []);
+  useEffect(() => {
+    const nextMonth = new Date(2025, 5, 8, 0, 0, 0).getTime();
+
+    const intervalId = setInterval(() => {
+      const now = new Date().getTime();
+      const timeLeft = nextMonth - now;
+
+      if (timeLeft <= 0) {
+        clearInterval(intervalId);
+        // Optionally do something when countdown ends
+      } else {
+        setDateSetting((prev) => ({
+          ...prev,
+          dayLeft: Math.floor(timeLeft / (1000 * 60 * 60 * 24)),
+          hoursLeft: Math.floor(
+            (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          ),
+          minutesLeft: Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60)),
+          secondsLeft: Math.floor((timeLeft % (1000 * 60)) / 1000),
+        }));
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   const flashSales = flashSalesCountDown.map((item, index) => {
     console.log(item);
