@@ -62,7 +62,7 @@ const Category = () => {
               <img
                 src={`${image}`}
                 alt="image-Array"
-                className=" md:w-[700px] md:h-[300px] w-full h-[150px] m-auto"
+                className=" md:w-[700px] md:h-[300px] w-full h-[150px] m-auto "
               />
             </SwiperSlide>
           );
