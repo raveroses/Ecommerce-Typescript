@@ -9,7 +9,6 @@ const Navbar = (element: List) => {
   const handleClickedSign = (item: string) => {
     setClick(item);
   };
-  // console.log(booleanClick);
   const ListMap = element.item.map((list, index) => {
     return (
       <li

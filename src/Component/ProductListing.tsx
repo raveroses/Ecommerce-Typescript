@@ -46,8 +46,6 @@ const ProductListing = () => {
   }, []);
 
   const flashSalesCount = flashSalesCountDown.map((item, index) => {
-    console.log(item);
-
     return (
       <div key={index}>
         <div className="font-bold md:text-[10px] text-[8px] text-center">
