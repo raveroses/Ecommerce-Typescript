@@ -9,21 +9,21 @@ interface detailsOfProduct {
   image: string;
   rating: { [key: string]: number };
 }
-interface UseFetchResult {
+export interface UseFetchResult {
   products: detailsOfProduct[];
   loading: boolean;
 }
 
 const useFetch = (url: string): UseFetchResult => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [products, setProducts] = useState<detailsOfProduct[]>([]);
+  const [product, setProduct] = useState<detailsOfProduct[]>([]);
   useEffect(() => {
     const handleFetchProduct = async () => {
       setLoading(true);
       try {
         const response = await fetch(url);
         const datas = await response.json();
-        setProducts(datas);
+        setProduct(datas);
       } catch (error: unknown) {
         if (error instanceof Error) {
           toast(error.message);
@@ -37,7 +37,7 @@ const useFetch = (url: string): UseFetchResult => {
     handleFetchProduct();
   }, []);
 
-  return { products, loading };
+  return { products: product, loading };
 };
 
 export default useFetch;
