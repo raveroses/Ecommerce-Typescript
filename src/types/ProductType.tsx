@@ -4,16 +4,25 @@ import { FaRegStar } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { ToastContainer, toast, Bounce } from "react-toastify";
-import type { UseFetchResult } from "@/CustomHooks/useFetch";
+import apiContext from "@/CustomHooks/createContext";
+import { useContext } from "react";
 
-const ProductType = ({ products, loading }: UseFetchResult) => {
-  const addProduct = new Set();
-  const handleRetrive = (id: number) => {
-    const miDCheck = products.find((product) => product.id === id);
-    addProduct.add(miDCheck);
-    console.log(id);
-  };
+const ProductType = () => {
+  const context = useContext(apiContext);
+  if (!context) {
+    throw new Error("error");
+  }
 
+  const {
+    products,
+    loading,
+    handleRetrive,
+    wishList,
+    wishListBool,
+    handleWishList,
+  } = context;
+
+  console.log(wishList);
   const mappProduct = products.map((product, index) => {
     return (
       <div
@@ -31,9 +40,12 @@ const ProductType = ({ products, loading }: UseFetchResult) => {
               className="object-center rounded-2xl w-[200px] h-[180px] md:h-[160px] gap-[100px]"
             />
           </div>
-          <div className="wishList">
-            <FaRegHeart className="text-center" />
-            <FaHeart className="hidden" />
+          <div className="wishList" onClick={() => handleWishList(product.id)}>
+            {wishListBool ? (
+              <FaRegHeart className="text-center" />
+            ) : (
+              <FaHeart className="text-center" />
+            )}
           </div>
         </div>
         <div className="addToCartPart">
@@ -65,7 +77,7 @@ const ProductType = ({ products, loading }: UseFetchResult) => {
   return (
     <div className="font-Afacad ">
       <div className="grid grid-col-1 justify-center md:grid-cols-4 gap-[25px] md:gap-[10px my-[50px]">
-        {mappProduct}
+        {loading ? <p>Loading....</p> : mappProduct}
       </div>
 
       <ToastContainer

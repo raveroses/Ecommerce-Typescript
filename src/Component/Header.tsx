@@ -25,7 +25,14 @@ const Header = () => {
         </div>
 
         <ul className="hidden lg:flex md:flex md:block lg:block list-none lg:gap-[30px] md:gap-[15px]">
-          <UnorderList item={["Home", "Contact", "Sign Up", "Shop"]} />
+          <UnorderList
+            navbarsList={[
+              { path: "/", list: "Home" },
+              { path: "contact", list: "Contact" },
+              { path: "signUp", list: "Sign Up" },
+              { path: "shop", list: "Shop" },
+            ]}
+          />
         </ul>
 
         <div className="relative flex justify-between items-center gap-[20px] md:gap-[30px] lg:gap-[30px]">
@@ -46,10 +53,10 @@ const Header = () => {
             <FaRegHeart className="text-[20px] cursor-pointer" />
             <FaHeart className="hidden" />
           </div>
-          <div>
+          <NavLink to={"/cart"} className="">
             <FaShoppingCart className="hidden" />
             <BsCart3 className="text-[20px] cursor-pointer" />
-          </div>
+          </NavLink>
           <div>
             <FaRegUser className="text-[20px] cursor-pointer" />
           </div>

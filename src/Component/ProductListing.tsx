@@ -4,7 +4,7 @@ type flashsales = {
   dayNumber: number;
   dayString: string;
 };
-import type { UseFetchResult } from "@/CustomHooks/useFetch";
+import type { UseFetchResult } from "@/CustomHooks/createContext";
 const ProductListing = ({ products, loading }: UseFetchResult) => {
   const [dateSetting, setDateSetting] = useState<Record<string, number>>({
     dayLeft: 0,
@@ -28,7 +28,6 @@ const ProductListing = ({ products, loading }: UseFetchResult) => {
 
       if (timeLeft <= 0) {
         clearInterval(intervalId);
-        // Optionally do something when countdown ends
       } else {
         setDateSetting((prev) => ({
           ...prev,

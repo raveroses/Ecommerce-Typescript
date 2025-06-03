@@ -1,20 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-interface detailsOfProduct {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-  rating: { [key: string]: number };
-}
-export interface UseFetchResult {
-  products: detailsOfProduct[];
-  loading: boolean;
-}
-
-const useFetch = (url: string): UseFetchResult => {
+import type { detailsOfProduct } from "./createContext";
+const useFetch = (url: string) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [product, setProduct] = useState<detailsOfProduct[]>([]);
   useEffect(() => {
@@ -37,7 +24,7 @@ const useFetch = (url: string): UseFetchResult => {
     handleFetchProduct();
   }, []);
 
-  return { products: product, loading };
+  return { product, loading };
 };
 
 export default useFetch;
