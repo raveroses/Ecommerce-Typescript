@@ -18,11 +18,10 @@ const ProductType = () => {
     loading,
     handleRetrive,
     wishList,
-    wishListBool,
     handleWishList,
+    wishListId,
   } = context;
 
-  console.log(wishList);
   const mappProduct = products.map((product, index) => {
     return (
       <div
@@ -40,11 +39,14 @@ const ProductType = () => {
               className="object-center rounded-2xl w-[200px] h-[180px] md:h-[160px] gap-[100px]"
             />
           </div>
-          <div className="wishList" onClick={() => handleWishList(product.id)}>
-            {wishListBool ? (
-              <FaRegHeart className="text-center" />
-            ) : (
+          <div
+            className="wishList text-red-600"
+            onClick={() => handleWishList(product.id)}
+          >
+            {wishListId[product.id] === product.id ? (
               <FaHeart className="text-center" />
+            ) : (
+              <FaRegHeart className="text-center" />
             )}
           </div>
         </div>

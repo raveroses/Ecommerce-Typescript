@@ -8,7 +8,8 @@ import AddedCart from "./Page/AddedCart";
 import apiContext from "./CustomHooks/createContext";
 import type { detailsOfProduct } from "./CustomHooks/createContext";
 import { useState } from "react";
-
+// import type { WishListBoolean } from "./CustomHooks/createContext";
+import type { wishListPlusCount } from "./CustomHooks/createContext";
 function App() {
   const { product, loading } = useFetch("https://fakestoreapi.com/products");
   const [duplicateArray, setDuplicateArray] = useState<detailsOfProduct[]>(
@@ -34,36 +35,45 @@ function App() {
   };
 
   ///////////
+  //   export interface wishListPlusCount {
+  //   wishLitter: detailsOfProduct[];
+  //   count: number;
+  // }
 
-  const [wishListBool, setWishListBool] = useState<boolean>(false);
-  const [wishList, setWishList] = useState<detailsOfProduct[]>(() => {
-    try {
-      const storeArray = localStorage.getItem("wishList");
-      return storeArray ? JSON.parse(storeArray) : [];
-    } catch (err) {
-      return [];
-    }
+  const [wishList, setWishList] = useState<wishListPlusCount>(() => {
+    const storeArray = localStorage.getItem("wishList");
+    return storeArray ? JSON.parse(storeArray) : { wishLitter: [], count: 0 };
   });
-
-  console.log(wishList);
-
+  const [wishListId, setWishListId] = useState<{ id: number }>({
+    id: 0,
+  });
+  // const wishCount: { [key: string]: number } = {
+  //   increment: 0,
+  // };
   const handleWishList = (id: number) => {
     const checkWishList = product.find((wishProduct) => wishProduct.id === id);
     if (!checkWishList) return;
 
     setWishList((prev) => {
-      const check = prev.find((product) => product.id === checkWishList.id);
-
+      const check = prev.wishLitter.find(
+        (product) => product.id === checkWishList.id
+      );
       if (check) {
         return prev;
       }
+      const setter = {
+        ...prev,
+        wishLitter: [checkWishList],
+        count: prev.count + 1,
+      };
 
-      const setter = [...prev, checkWishList];
-      setWishListBool((prev) => !prev);
       localStorage.setItem("wishList", JSON.stringify(setter));
       return setter;
     });
+    setWishListId((prev) => ({ ...prev, [id]: checkWishList.id }));
   };
+
+  console.log(wishList);
   return (
     <BrowserRouter>
       <Header />
@@ -74,8 +84,8 @@ function App() {
           duplicateArray,
           handleRetrive,
           wishList: wishList,
-          wishListBool,
           handleWishList,
+          wishListId,
         }}
       >
         <Routes>

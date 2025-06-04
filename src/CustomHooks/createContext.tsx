@@ -17,14 +17,18 @@ export interface detailsOfProduct {
   image: string;
   rating: { [key: string]: number };
 }
+export interface wishListPlusCount {
+  wishLitter: detailsOfProduct[];
+  count: number;
+}
 export interface UseFetchResult {
   products: detailsOfProduct[];
   loading: boolean;
   handleRetrive: (id: number) => void;
   duplicateArray: detailsOfProduct[];
-  wishList: detailsOfProduct[];
-  wishListBool: boolean;
+  wishList: wishListPlusCount;
   handleWishList: (id: number) => void;
+  wishListId: { [key: string]: number };
 }
 
 const apiContext = React.createContext<UseFetchResult | null>(null);
