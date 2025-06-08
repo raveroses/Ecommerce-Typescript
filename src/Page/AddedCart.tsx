@@ -51,12 +51,12 @@ const AddedCart = () => {
             readOnly
             className="md:w-[50px] w-[20px] outline-none border-none focus-none text-center"
           />
-          <div className="increment flex flex-col border-l-2 pl-[2px]">
+          <div className="increment flex flex-col border-l-2 pl-[2px] ">
             <button onClick={() => handleIncrementQuantity(product.id)}>
-              <FaAngleUp className="md:text-[16px] text-[12px]" />
+              <FaAngleUp className="md:text-[16px] text-[12px] cursor-pointer" />
             </button>
             <button onClick={() => handleDecrementQuantity(product.id)}>
-              <FaAngleDown className="md:text-[16px] text-[12px]" />
+              <FaAngleDown className="md:text-[16px] text-[12px] cursor-pointer" />
             </button>
           </div>
         </div>

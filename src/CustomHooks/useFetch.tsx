@@ -22,8 +22,8 @@ const useFetch = (url: string) => {
       }
     };
     handleFetchProduct();
-  }, []);
-
+  }, [url]);
+  console.log(product);
   return { product, loading };
 };
 

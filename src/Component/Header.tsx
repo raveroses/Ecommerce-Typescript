@@ -1,12 +1,21 @@
 import { FaRegHeart } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
 import { FaShoppingCart } from "react-icons/fa";
 import { BsCart3 } from "react-icons/bs";
 import { FaRegUser } from "react-icons/fa";
 import UnorderList from "./Navbar";
 import { NavLink } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
+import apiContext from "@/CustomHooks/createContext";
+import { useContext } from "react";
+
 const Header = () => {
+  const context = useContext(apiContext);
+  if (!context) {
+    throw new Error("error");
+  }
+  const { wishList, handleSearch, handleFormSubmission, inputText } = context;
+  console.log(wishList.count);
+
   return (
     <header>
       <div className="bg-black h-[30px] text-center text-gray-400 md:text-[13px] lg:text-[13px] text-[9px]">
@@ -36,22 +45,32 @@ const Header = () => {
         </ul>
 
         <div className="relative flex justify-between items-center gap-[20px] md:gap-[30px] lg:gap-[30px]">
-          <form className=" md:flex lg:flex md:flex-row lg:flex-row gap-[10px] bg-[#F5F5F5] px-[4px] py-[6px] w-[50%] rounded">
+          <form
+            className=" md:flex lg:flex md:flex-row lg:flex-row gap-[10px] bg-[#F5F5F5] px-[4px] py-[6px] w-[50%] rounded"
+            onSubmit={handleFormSubmission}
+          >
             <input
+              value={inputText}
               type="text"
               placeholder="What are you looking for?"
               className="outline-none border-none placeholder:text-[13px] w-[80%] absolute top-[50px] right-[120px]"
+              onChange={handleSearch}
             />
-            <button className="md:block hidden">
+            <button type="submit" className="md:block hidden">
+              <FaSearch />
+            </button>
+            <button className="md:block lg:hidden md:hidden">
               <FaSearch />
             </button>
           </form>
-          <button className="md:block lg:hidden md:hidden">
-            <FaSearch />
-          </button>
-          <div>
-            <FaRegHeart className="text-[20px] cursor-pointer" />
-            <FaHeart className="hidden" />
+
+          <div className="">
+            <p className="text-center font-semibold text-red-600">
+              {wishList.count}
+            </p>
+            <NavLink to="wishListPage">
+              <FaRegHeart className="text-[20px] cursor-pointer" />
+            </NavLink>
           </div>
           <NavLink to={"/cart"} className="">
             <FaShoppingCart className="hidden" />

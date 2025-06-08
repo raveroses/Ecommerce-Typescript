@@ -8,8 +8,9 @@ import AddedCart from "./Page/AddedCart";
 import apiContext from "./CustomHooks/createContext";
 import type { detailsOfProduct } from "./CustomHooks/createContext";
 import { useState } from "react";
-// import type { WishListBoolean } from "./CustomHooks/createContext";
+import WishListPage from "./Page/WishListPage";
 import type { wishListPlusCount } from "./CustomHooks/createContext";
+import { toast } from "react-toastify";
 function App() {
   const { product, loading } = useFetch("https://fakestoreapi.com/products");
   const [duplicateArray, setDuplicateArray] = useState<detailsOfProduct[]>(
@@ -32,29 +33,22 @@ function App() {
       localStorage.setItem("product", JSON.stringify(updated));
       return updated;
     });
+    toast.success("You added product to cart succefully");
   };
 
-  ///////////
-  //   export interface wishListPlusCount {
-  //   wishLitter: detailsOfProduct[];
-  //   count: number;
-  // }
-
-  const [wishList, setWishList] = useState<wishListPlusCount>(() => {
+  const [wishLists, setWishLists] = useState<wishListPlusCount>(() => {
     const storeArray = localStorage.getItem("wishList");
     return storeArray ? JSON.parse(storeArray) : { wishLitter: [], count: 0 };
   });
   const [wishListId, setWishListId] = useState<{ id: number }>({
     id: 0,
   });
-  // const wishCount: { [key: string]: number } = {
-  //   increment: 0,
-  // };
+
   const handleWishList = (id: number) => {
     const checkWishList = product.find((wishProduct) => wishProduct.id === id);
     if (!checkWishList) return;
 
-    setWishList((prev) => {
+    setWishLists((prev) => {
       const check = prev.wishLitter.find(
         (product) => product.id === checkWishList.id
       );
@@ -63,35 +57,81 @@ function App() {
       }
       const setter = {
         ...prev,
-        wishLitter: [checkWishList],
+        wishLitter: [...prev.wishLitter, checkWishList],
         count: prev.count + 1,
       };
 
       localStorage.setItem("wishList", JSON.stringify(setter));
       return setter;
     });
+
+    toast.success("You added your wished product successfully");
+
     setWishListId((prev) => ({ ...prev, [id]: checkWishList.id }));
   };
 
-  console.log(wishList);
+  type placeholders = string[];
+  const category: placeholders = [
+    "electronics",
+    "jewelery",
+    "men's clothing",
+    "women's clothing",
+  ];
+
+  const [cate, setCate] = useState<detailsOfProduct[]>([]);
+  const handleCategory = (categoryId: string) => {
+    const checkCategory = product.filter((cat) => cat.category === categoryId);
+    if (checkCategory) {
+      setCate(checkCategory);
+    }
+  };
+
+  const [searchValue, setSearchValue] = useState<detailsOfProduct[]>([]);
+  const [inputText, setInputText] = useState<string>("");
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputText(e.target.value);
+  };
+
+  const handleFormSubmission = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!inputText) return;
+
+    const searchCheck = product.filter((prod) =>
+      prod.title.toLowerCase().includes(inputText.toLowerCase())
+    );
+    setSearchValue(searchCheck);
+    setInputText("");
+  };
+
+  console.log(searchValue);
+  console.log(inputText);
   return (
     <BrowserRouter>
-      <Header />
       <apiContext.Provider
         value={{
           products: product,
           loading,
           duplicateArray,
           handleRetrive,
-          wishList: wishList,
+          wishList: wishLists,
           handleWishList,
           wishListId,
+          category,
+          handleCategory,
+          cate,
+          searchValue,
+          inputText,
+          handleSearch,
+          handleFormSubmission,
         }}
       >
+        <Header />
+
         <Routes>
           <Route index element={<Home />} />
           <Route path="contact" element={<Contact />} />
           <Route path="cart" element={<AddedCart />} />
+          <Route path="wishListPage" element={<WishListPage />} />
         </Routes>
       </apiContext.Provider>
       <Footer />

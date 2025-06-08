@@ -29,6 +29,13 @@ export interface UseFetchResult {
   wishList: wishListPlusCount;
   handleWishList: (id: number) => void;
   wishListId: { [key: string]: number };
+  category: string[];
+  handleCategory: (categoryId: string) => void;
+  cate: detailsOfProduct[];
+  searchValue: detailsOfProduct[];
+  handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFormSubmission: (e: React.FormEvent<HTMLFormElement>) => void;
+  inputText: string;
 }
 
 const apiContext = React.createContext<UseFetchResult | null>(null);
