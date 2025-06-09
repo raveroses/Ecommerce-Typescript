@@ -9,8 +9,11 @@ import apiContext from "./CustomHooks/createContext";
 import type { detailsOfProduct } from "./CustomHooks/createContext";
 import { useState } from "react";
 import WishListPage from "./Page/WishListPage";
+import SignUp from "./Page/SignUp";
 import type { wishListPlusCount } from "./CustomHooks/createContext";
 import { toast } from "react-toastify";
+import Login from "./Page/Logn";
+import About from "./Page/About";
 function App() {
   const { product, loading } = useFetch("https://fakestoreapi.com/products");
   const [duplicateArray, setDuplicateArray] = useState<detailsOfProduct[]>(
@@ -99,7 +102,12 @@ function App() {
     const searchCheck = product.filter((prod) =>
       prod.title.toLowerCase().includes(inputText.toLowerCase())
     );
-    setSearchValue(searchCheck);
+
+    if (searchCheck.length > 0) {
+      setSearchValue(searchCheck);
+    } else {
+      toast.error("Invalid Search");
+    }
     setInputText("");
   };
 
@@ -132,6 +140,9 @@ function App() {
           <Route path="contact" element={<Contact />} />
           <Route path="cart" element={<AddedCart />} />
           <Route path="wishListPage" element={<WishListPage />} />
+          <Route path="signup" element={<SignUp />} />
+          <Route path="login" element={<Login />} />
+          <Route path="about" element={<About />} />
         </Routes>
       </apiContext.Provider>
       <Footer />

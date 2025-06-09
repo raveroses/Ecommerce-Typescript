@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import apiContext from "@/CustomHooks/createContext";
 import { useContext } from "react";
-
+import { CiMenuFries } from "react-icons/ci";
 const Header = () => {
   const context = useContext(apiContext);
   if (!context) {
@@ -26,8 +26,8 @@ const Header = () => {
       </div>
 
       <section
-        className=" flex justify-between items-center pt-[10px] md:px-[5px] lg:px-[10px]
-       px-[20px] md:px-10 border-b-1 pb-[15px] border-gray-200"
+        className=" flex justify-between items-center pt-[10px] md:px-[80px] 
+       px-[5px] border-b-1 pb-[15px] border-gray-200"
       >
         <div className="font-bold text-[20px]">
           <NavLink to={"/"}>Shoppy Store</NavLink>
@@ -38,22 +38,22 @@ const Header = () => {
             navbarsList={[
               { path: "/", list: "Home" },
               { path: "contact", list: "Contact" },
-              { path: "signUp", list: "Sign Up" },
-              { path: "shop", list: "Shop" },
+              { path: "signup", list: "Sign Up" },
+              { path: "about", list: "About" },
             ]}
           />
         </ul>
 
-        <div className="relative flex justify-between items-center gap-[20px] md:gap-[30px] lg:gap-[30px]">
+        <div className="relative flex justify-between items-center gap-[20px] md:gap-[0px] ">
           <form
-            className=" md:flex lg:flex md:flex-row lg:flex-row gap-[10px] bg-[#F5F5F5] px-[4px] py-[6px] w-[50%] rounded"
+            className=" md:flex md:items-center md:flex-row gap-[10px] md:bg-[#F5F5F5] bg-none px-[4px] py-[6px] w-[50%] rounded "
             onSubmit={handleFormSubmission}
           >
             <input
               value={inputText}
               type="text"
               placeholder="What are you looking for?"
-              className="outline-none border-none placeholder:text-[13px] w-[80%] absolute top-[50px] right-[120px]"
+              className="outline-none border-none placeholder:text-[13px] w-[80%] md:static absolute top-[60px] md:top-[0px] right-[120px] md:right-0"
               onChange={handleSearch}
             />
             <button type="submit" className="md:block hidden">
@@ -78,6 +78,9 @@ const Header = () => {
           </NavLink>
           <div>
             <FaRegUser className="text-[20px] cursor-pointer" />
+          </div>
+          <div className="md:hidden block text-[25px]">
+            <CiMenuFries />
           </div>
         </div>
       </section>

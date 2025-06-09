@@ -26,10 +26,10 @@ const ProductType = () => {
   const mappProduct = products.map((product, index) => {
     return (
       <div
-        className="group bg-gray-100 w-[280px] md:w-[250px] shadow-xl p-[10px] rounded-xl cursor-pointer"
+        className="group bg-gray-100 w-full md:w-[250px] shadow-xl p-[10px] rounded-xl cursor-pointer mb-[40px] mb-0"
         key={index}
       >
-        <div className="anotherBackground flex gap-[5px] bg-gray-300 p-[10px] rounded">
+        <div className="anotherBackground flex gap-[50px] md:gap-[5px]  bg-gray-300 p-[10px] rounded">
           <div className="percent w-[30px] h-[15px] text-[10px] bg-red-600 rounded text-center ">
             20%
           </div>
@@ -53,7 +53,7 @@ const ProductType = () => {
         </div>
         <div className="addToCartPart">
           <button
-            className="invisible group-hover:visible bg-black text-white w-full h-[30px] text-center font-semibold cursor-pointer"
+            className="invisible group-hover:visible bg-black text-white w-full md:h-[30px] h-[40px] text-center font-semibold cursor-pointer"
             onClick={() => handleRetrive(product.id)}
           >
             Add to Cart
@@ -80,10 +80,10 @@ const ProductType = () => {
   const CategoryDisplay = cate.map((product, index) => {
     return (
       <div
-        className="group bg-gray-100 w-[280px] md:w-[250px] shadow-xl p-[10px] rounded-xl cursor-pointer"
+        className="group bg-gray-100 w-full md:w-[250px] shadow-xl p-[10px] rounded-xl cursor-pointer mb-[40px] mb-0"
         key={index}
       >
-        <div className="anotherBackground flex gap-[5px] bg-gray-300 p-[10px] rounded">
+        <div className="anotherBackground flex gap-[50px] md:gap-[5px]  bg-gray-300 p-[10px] rounded">
           <div className="percent w-[30px] h-[15px] text-[10px] bg-red-600 rounded text-center ">
             20%
           </div>
@@ -107,7 +107,7 @@ const ProductType = () => {
         </div>
         <div className="addToCartPart">
           <button
-            className="invisible group-hover:visible bg-black text-white w-full h-[30px] text-center font-semibold cursor-pointer"
+            className="invisible group-hover:visible bg-black text-white w-full md:h-[30px] h-[40px] text-center font-semibold cursor-pointer"
             onClick={() => handleRetrive(product.id)}
           >
             Add to Cart
@@ -133,10 +133,10 @@ const ProductType = () => {
   const productSeacrching = searchValue.map((product, index) => {
     return (
       <div
-        className="group bg-gray-100 w-[280px] md:w-[250px] shadow-xl p-[10px] rounded-xl cursor-pointer"
+        className="group bg-gray-100 w-full md:w-[250px] shadow-xl p-[10px] rounded-xl cursor-pointer mb-[40px] mb-0"
         key={index}
       >
-        <div className="anotherBackground flex gap-[5px] bg-gray-300 p-[10px] rounded">
+        <div className="anotherBackground flex gap-[50px] md:gap-[5px] bg-gray-300 p-[10px] rounded">
           <div className="percent w-[30px] h-[15px] text-[10px] bg-red-600 rounded text-center ">
             20%
           </div>
@@ -160,7 +160,7 @@ const ProductType = () => {
         </div>
         <div className="addToCartPart">
           <button
-            className="invisible group-hover:visible bg-black text-white w-full h-[30px] text-center font-semibold cursor-pointer"
+            className="invisible group-hover:visible bg-black text-white w-full md:h-[30px] h-[40px] text-center font-semibold cursor-pointer"
             onClick={() => handleRetrive(product.id)}
           >
             Add to Cart
@@ -190,7 +190,7 @@ const ProductType = () => {
         <>loading....</>
       ) : (
         <div
-          className={`grid grid-col-1 justify-center md:grid-cols-4 gap-[25px] md:gap-[10px my-[50px] ${
+          className={`grid grid-col-1 justify-center md:grid-cols-4 md:gap-[25px] md:gap-[0px] my-[50px] ${
             cate.length > 0 || searchValue.length > 0 ? "hidden" : "block"
           }`}
         >

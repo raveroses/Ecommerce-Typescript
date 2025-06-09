@@ -16,10 +16,10 @@ const WishListPage = () => {
   const mappProduct = wishList.wishLitter.map((product, index) => {
     return (
       <div
-        className="group bg-gray-100 w-[280px] md:w-[250px] shadow-xl p-[10px] rounded-xl cursor-pointer"
+        className="group bg-gray-100 w-full md:w-[250px] shadow-xl p-[10px] rounded-xl cursor-pointer mb-[40px] mb-0"
         key={index}
       >
-        <div className="anotherBackground flex gap-[5px] bg-gray-300 p-[10px] rounded">
+        <div className="anotherBackground flex gap-[50px] md:gap-[5px]  bg-gray-300 p-[10px] rounded">
           <div className="percent w-[30px] h-[15px] text-[10px] bg-red-600 rounded text-center ">
             20%
           </div>
@@ -43,7 +43,7 @@ const WishListPage = () => {
         </div>
         <div className="addToCartPart">
           <button
-            className="invisible group-hover:visible bg-black text-white w-full h-[30px] text-center font-semibold cursor-pointer"
+            className="invisible group-hover:visible bg-black text-white w-full md:h-[30px] h-[40px] text-center font-semibold cursor-pointer"
             onClick={() => handleRetrive(product.id)}
           >
             Add to Cart
