@@ -10,22 +10,20 @@ const AddedCart = () => {
   const { duplicateArray } = context;
 
   const [quantity, setQuantity] = useState(() => {
-    const newValue: { [key: string]: number } = {
-      eachElementId: 1,
-    };
+    const newValue: { [key: string]: number } = {};
+    duplicateArray.forEach((product) => {
+      const cuttingFromTitle = product.id.toString();
+      newValue[cuttingFromTitle] = 1;
+    });
     return newValue;
   });
-  console.log(quantity);
   const handleIncrementQuantity = (id: number) => {
-    const idOFEach = quantity["eachElementId"];
-    console.log(idOFEach);
-
-    setQuantity((prev) => ({
-      ...prev,
-      eachElementId: prev.eachElementId + 1,
-    }));
+    setQuantity((prev) => {
+      const currentQty = prev[id] ?? 0;
+      const obj = { ...prev, [id]: currentQty + 1 };
+      return obj;
+    });
   };
-
   const handleDecrementQuantity = (id: number) => {
     setQuantity((prev) => {
       const least = Math.max(prev[id] - 1, 1);
@@ -37,7 +35,8 @@ const AddedCart = () => {
     return (
       <section
         key={index}
-        className="w-full max-w-full flex justify-center shadow-xl items-center md:gap-[150px] gap-[10px] py-[15px] shadow-2xl mb-[10px] px-[10px] md:px-[5px]"
+        className="w-full max-w-full flex justify-center shadow-xl items-center md:gap-[150px] gap-[40px] py-[15px]
+         shadow-2xl mb-[10px] px-[10px] md:px-[5px]"
       >
         <div className="image flex">
           <img
@@ -57,7 +56,7 @@ const AddedCart = () => {
             type="number"
             value={quantity[product.id]}
             readOnly
-            className="md:w-[50px] w-[20px] outline-none border-none focus-none text-center"
+            className="md:w-[50px] w-[30px] outline-none border-none focus-none text-center"
           />
           <div className="increment flex flex-col border-l-2 pl-[2px] ">
             <button onClick={() => handleIncrementQuantity(product.id)}>
