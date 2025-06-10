@@ -9,7 +9,7 @@ interface imageBanner {
 }
 
 const ImageBanner = () => {
-  const [images, setImages] = useState<imageBanner>({
+  const [images] = useState<imageBanner>({
     imageHeroo: {
       src: "./images/hero.png",
       style: " mx-auto md:w-[85%] md:h-[400px] w-full h-[200px] max-w-full",

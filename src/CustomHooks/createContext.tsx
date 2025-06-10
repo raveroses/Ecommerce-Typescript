@@ -1,13 +1,4 @@
 import React from "react";
-// export interface productDetail {
-//   [key: string]: string;
-// }
-
-// export interface ApiFetched {
-//   products: productDetail[];
-//   loading: boolean;
-// }
-
 export interface detailsOfProduct {
   id: number;
   title: string;
