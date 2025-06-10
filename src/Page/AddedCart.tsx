@@ -10,12 +10,20 @@ const AddedCart = () => {
   const { duplicateArray } = context;
 
   const [quantity, setQuantity] = useState(() => {
-    const newValue: { [key: string]: number } = {};
+    const newValue: { [key: string]: number } = {
+      eachElementId: 1,
+    };
     return newValue;
   });
   console.log(quantity);
   const handleIncrementQuantity = (id: number) => {
-    setQuantity((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+    const idOFEach = quantity["eachElementId"];
+    console.log(idOFEach);
+
+    setQuantity((prev) => ({
+      ...prev,
+      eachElementId: prev.eachElementId + 1,
+    }));
   };
 
   const handleDecrementQuantity = (id: number) => {

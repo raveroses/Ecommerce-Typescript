@@ -89,7 +89,6 @@ function App() {
     }
   };
 
-  const [searchValue, setSearchValue] = useState<detailsOfProduct[]>([]);
   const [inputText, setInputText] = useState<string>("");
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
@@ -103,15 +102,10 @@ function App() {
       prod.title.toLowerCase().includes(inputText.toLowerCase())
     );
 
-    if (searchCheck.length > 0) {
-      setSearchValue(searchCheck);
-    } else {
-      toast.error("Invalid Search");
-    }
+    setCate(searchCheck);
     setInputText("");
   };
 
-  console.log(searchValue);
   console.log(inputText);
   return (
     <BrowserRouter>
@@ -127,7 +121,6 @@ function App() {
           category,
           handleCategory,
           cate,
-          searchValue,
           inputText,
           handleSearch,
           handleFormSubmission,
