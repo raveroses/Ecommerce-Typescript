@@ -1,12 +1,11 @@
 import Category from "@/Component/Category";
 import ProductListing from "@/Component/ProductListing";
 import ImageBanner from "@/Component/ImageBanner";
-import type { UseFetchResult } from "@/CustomHooks/createContext";
-const Home = ({ products, loading }: UseFetchResult) => {
+const Home = () => {
   return (
     <div className="font-Afacad ">
       <Category />
-      <ProductListing products={products} loading={loading} />
+      <ProductListing />
       <ImageBanner />
     </div>
   );

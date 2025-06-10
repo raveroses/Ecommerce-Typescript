@@ -5,7 +5,7 @@ import { FaStarHalfStroke } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
-import { ToastContainer, toast, Bounce } from "react-toastify";
+import { ToastContainer, Bounce } from "react-toastify";
 const WishListPage = () => {
   const context = useContext(apiContext);
   if (!context) throw new Error("Not available");

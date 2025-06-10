@@ -4,8 +4,7 @@ type flashsales = {
   dayNumber: number;
   dayString: string;
 };
-import type { UseFetchResult } from "@/CustomHooks/createContext";
-const ProductListing = ({ products, loading }: UseFetchResult) => {
+const ProductListing = () => {
   const [dateSetting, setDateSetting] = useState<Record<string, number>>({
     dayLeft: 0,
     hoursLeft: 0,
@@ -72,7 +71,7 @@ const ProductListing = ({ products, loading }: UseFetchResult) => {
         <div className="time flex gap-[10px]">{flashSalesCount}</div>
       </section>
       <section className="product">
-        <ProductType products={products} loading={loading} />
+        <ProductType />
       </section>
     </div>
   );

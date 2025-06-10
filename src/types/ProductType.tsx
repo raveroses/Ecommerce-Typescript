@@ -3,7 +3,7 @@ import { FaStarHalfStroke } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
-import { ToastContainer, toast, Bounce } from "react-toastify";
+import { ToastContainer, Bounce } from "react-toastify";
 import apiContext from "@/CustomHooks/createContext";
 import { useContext } from "react";
 

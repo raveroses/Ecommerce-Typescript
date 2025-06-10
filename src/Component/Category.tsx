@@ -1,7 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
-import "swiper/css";
 import apiContext from "@/CustomHooks/createContext";
 import { useContext } from "react";
 type placeholders = string[];
