@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import apiContext from "@/CustomHooks/createContext";
 import { FaAngleDown } from "react-icons/fa";
 import { FaAngleUp } from "react-icons/fa";
@@ -8,29 +8,64 @@ const AddedCart = () => {
     throw new Error("error");
   }
   const { duplicateArray } = context;
-
+  const [total, setTotal] = useState<number[]>([]);
   const [quantity, setQuantity] = useState(() => {
     const newValue: { [key: string]: number } = {};
     duplicateArray.forEach((product) => {
-      const cuttingFromTitle = product.id.toString();
-      newValue[cuttingFromTitle] = 1;
+      const id = product.id.toString();
+      const title = product.title;
+      newValue[id] = 1;
+      newValue[title] = product.price;
     });
     return newValue;
   });
-  const handleIncrementQuantity = (id: number) => {
+
+  const handleIncrementQuantity = (
+    id: number,
+    title: string,
+    price: number
+  ) => {
     setQuantity((prev) => {
-      const currentQty = prev[id] ?? 0;
-      const obj = { ...prev, [id]: currentQty + 1 };
+      const currentQty = prev[id] ?? 1;
+      // const currentPrice = prev[price] ?? 0;
+      const obj = {
+        ...prev,
+        [id]: currentQty + 1,
+        [title]: (currentQty + 1) * price,
+      };
       return obj;
     });
   };
-  const handleDecrementQuantity = (id: number) => {
+  console.log(quantity);
+  const handleDecrementQuantity = (
+    id: number,
+    title: string,
+    price: number
+  ) => {
     setQuantity((prev) => {
       const least = Math.max(prev[id] - 1, 1);
-      const reduce = { ...prev, [id]: least };
+      const reduce = {
+        ...prev,
+        [id]: least,
+        [title]: least * price,
+      };
       return reduce;
     });
   };
+
+  useEffect(() => {
+    const pro = duplicateArray.map((product) => {
+      const quanty = quantity[product.id] ?? 1;
+      return quanty * product.price;
+    });
+    setTotal(pro);
+  }, [quantity, duplicateArray]);
+
+  const finalTotal = total.reduce(
+    (accum, currentValue) => accum + currentValue,
+    0
+  );
+
   const cartedProduct = duplicateArray.map((product, index) => {
     return (
       <section
@@ -59,16 +94,32 @@ const AddedCart = () => {
             className="md:w-[50px] w-[30px] outline-none border-none focus-none text-center"
           />
           <div className="increment flex flex-col border-l-2 pl-[2px] ">
-            <button onClick={() => handleIncrementQuantity(product.id)}>
+            <button
+              onClick={() =>
+                handleIncrementQuantity(
+                  product.id,
+                  product.title,
+                  product.price
+                )
+              }
+            >
               <FaAngleUp className="md:text-[16px] text-[12px] cursor-pointer" />
             </button>
-            <button onClick={() => handleDecrementQuantity(product.id)}>
+            <button
+              onClick={() =>
+                handleDecrementQuantity(
+                  product.id,
+                  product.title,
+                  product.price
+                )
+              }
+            >
               <FaAngleDown className="md:text-[16px] text-[12px] cursor-pointer" />
             </button>
           </div>
         </div>
         <div className="SubTotal text-[14px] md:text-[15px]">
-          ${(product.price * quantity[product.id]).toFixed(2)}
+          ${quantity[product.title]}
         </div>
       </section>
     );
@@ -85,6 +136,22 @@ const AddedCart = () => {
         <div className="text-[15px] text-[13px] font-medium">SubTotal</div>
       </section>
       <section className="">{cartedProduct}</section>
+
+      <section className="fullPrice shadow-xl mx-auto w-[250px] p-[10px]">
+        <h1 className="text-[15px] font-medium pb-[17px]">Cart Total</h1>
+
+        <div className="flex border-b text-[14px] justify-between pb-[2px] mb-[15px]">
+          <div> Shipping:</div>
+          <div>Free</div>
+        </div>
+        <div className="flex  text-[14px] justify-between pb-[2px] mb-[15px]">
+          <div>Total:</div>
+          <div className="font-semibold"> ${finalTotal}</div>
+        </div>
+        <button className="bg-red-600 text-white text-center rounded w-full py-[7px] font-medium font-[12px]">
+          Proceed to checkout
+        </button>
+      </section>
     </section>
   );
 };
