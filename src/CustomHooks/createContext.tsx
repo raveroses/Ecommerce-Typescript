@@ -26,11 +26,9 @@ export interface UseFetchResult {
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleFormSubmission: (e: React.FormEvent<HTMLFormElement>) => void;
   inputText: string;
+  modal: boolean;
+  handleModal: () => void;
 }
-export type UseFetchResult2 = {
-  products: detailsOfProduct[];
-  loading: boolean;
-};
 
 const apiContext = React.createContext<UseFetchResult | null>(null);
 export default apiContext;

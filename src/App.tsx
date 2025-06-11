@@ -107,6 +107,10 @@ function App() {
   };
 
   console.log(inputText);
+  const [modal, setModal] = useState<boolean>(false);
+  const handleModal = () => {
+    setModal((prev) => !prev);
+  };
   return (
     <BrowserRouter>
       <apiContext.Provider
@@ -124,6 +128,8 @@ function App() {
           inputText,
           handleSearch,
           handleFormSubmission,
+          modal,
+          handleModal,
         }}
       >
         <Header />

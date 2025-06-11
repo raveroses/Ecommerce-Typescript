@@ -32,12 +32,12 @@ const Category = () => {
     "/images/main-image3.jpg",
   ];
   return (
-    <div className="mt-[30px] md:mt-0 md:px-[90px] px-[30px] flex md:flex-row flex-col md:gap-[120px] gap-0">
+    <div className="mt-[30px] md:mt-0 md:px-[50px] px-[30px] flex md:flex-row flex-col md:gap-[120px] gap-0">
       <ul
         className="scrollbar-hide w-[100%] md:w-[30%] overflow-x-auto list-none flex 
         flex-row md:flex-col gap-[7px] md:gap-[10px]
-      font-semibold text-[16px] md:pr-[90px] py-[10px] md:border-r-2 
-      md:border-gray-200 boder-none lg:border-gray-200 mx-[4px] md:pt-[130px]"
+      font-semibold text-[16px] md:pr-0  md:border-r-2 
+      md:border-gray-200 boder-none lg:border-gray-200 mx-[4px] md:pt-[60px]"
       >
         {categoryMapping}
       </ul>
