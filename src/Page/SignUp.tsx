@@ -1,9 +1,14 @@
 import { NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import { toast } from "react-toastify";
-import Contact from "./Contact";
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient(
+  "https://wxijzyfbmmolulveeufe.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4aWp6eWZibW1vbHVsdmVldWZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyMDk4OTEsImV4cCI6MjA2NTc4NTg5MX0.zahPGgGGf2rnzQgOiC3Bn6seO_l13avPsK9HjIsH9yI"
+);
+
 type UserType = {
   userName: string;
   contact: string;
@@ -16,6 +21,7 @@ const SignUp = () => {
     password: "",
   });
   console.log(user);
+
   const handleValidation = () => {
     const isPhone = /^(?:\+?234|0)\d{10}$/;
     const isEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.(com)$/;
@@ -36,11 +42,34 @@ const SignUp = () => {
     setUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFormSubmission = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const isValid = handleValidation();
-    if (!isValid) toast("Please fill all the fields");
-    console.log(user);
+
+    try {
+      const isValid = handleValidation();
+      if (isValid) {
+        const { data, error } = await supabase.auth.signUp({
+          email: user.contact,
+          password: user.password,
+        });
+
+        console.log(data);
+        console.log(error);
+      } else {
+        toast("Please fill all the fields");
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        console.log(e.message);
+      }
+    }
+  };
+
+  const signingWithAuth = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    console.log(data, error);
   };
   return (
     <div className="w-[100%] flex">
@@ -89,6 +118,7 @@ const SignUp = () => {
         <button
           className="flex md:w-[270px] w-full max-w-full items-center gap-[10px] justify-center border-1 border-gray-400 
           py-[8px] mt-[10px] rounded  cursor-pointer"
+          onClick={signingWithAuth}
         >
           <FcGoogle className="text-[25px]" />
           <p>Sign up with Google</p>
