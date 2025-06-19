@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import apiContext from "@/CustomHooks/createContext";
 import { FaAngleDown } from "react-icons/fa";
 import { FaAngleUp } from "react-icons/fa";
+import PaymentPage from "@/Component/PaymentPage";
 const AddedCart = () => {
   const context = useContext(apiContext);
   if (!context) {
@@ -65,6 +66,7 @@ const AddedCart = () => {
     (accum, currentValue) => accum + currentValue,
     0
   );
+  console.log(typeof finalTotal);
 
   const cartedProduct = duplicateArray.map((product, index) => {
     return (
@@ -124,8 +126,13 @@ const AddedCart = () => {
       </section>
     );
   });
+
+  const [viewPaymentPage, setViewPaymentPage] = useState<boolean>(false);
+  const handleViewPaymentPayment = () => {
+    setViewPaymentPage((prev) => !prev);
+  };
   return (
-    <section className="md:mx-[200px] mx-[5px] my-[70px] ">
+    <section className="md:mx-[200px] mx-[5px] my-[70px] relative">
       <section
         className="w-full md:mx-[10px] mx-[0px] flex justify-center items-center 
       md:gap-[150px] gap-[30px] md:py-[10px] py-[15px] shadow-2xl mb-[29px]"
@@ -148,10 +155,15 @@ const AddedCart = () => {
           <div>Total:</div>
           <div className="font-semibold"> ${finalTotal}</div>
         </div>
-        <button className="bg-red-600 text-white text-center rounded w-full py-[7px] font-medium font-[12px]">
+        <button
+          className="bg-red-600 text-white text-center rounded w-full py-[7px] font-medium font-[12px]"
+          onClick={handleViewPaymentPayment}
+        >
           Proceed to checkout
         </button>
       </section>
+
+      {viewPaymentPage && <PaymentPage finalTotal={finalTotal} />}
     </section>
   );
 };
