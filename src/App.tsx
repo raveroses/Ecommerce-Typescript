@@ -12,7 +12,7 @@ import WishListPage from "./Page/WishListPage";
 import SignUp from "./Page/SignUp";
 import type { wishListPlusCount } from "./CustomHooks/createContext";
 import { toast } from "react-toastify";
-import Login from "./Page/Logn";
+import Login from "./Page/Login";
 import About from "./Page/About";
 import React from "react";
 import ScrollToTop from "./Component/ScrollToTop";
@@ -225,7 +225,7 @@ function App() {
         setAccountCreationData(data);
         localStorage.setItem("acctData", JSON.stringify(data));
 
-        navigate("/");
+        navigate("/login");
       } else {
         toast("Please fill all the fields");
       }
@@ -246,6 +246,56 @@ function App() {
     navigate("/");
     console.log(data, error);
   };
+
+  const [userLogin, setUserLogin] = useState<Record<string, string>>(() => {
+    try {
+      const stored = localStorage.getItem("login");
+      return stored
+        ? JSON.parse(stored)
+        : {
+            email: "",
+            password: "",
+          };
+    } catch (e) {
+      console.log("Invalid Parse", e);
+      return {};
+    }
+  });
+
+  const [loginData, setLoginData] = useState({});
+  const handleSignInOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setUserLogin((prev) => {
+      const updatter = { ...prev, [name]: value };
+      localStorage.setItem("login", JSON.stringify(updatter));
+      return updatter;
+    });
+  };
+  const handleSignInValidation = () => {
+    const isEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+    if (!userLogin.password.trim() || !isEmail.test(userLogin.email.trim())) {
+      toast.error("Please,revalidate your Input");
+      return;
+    }
+
+    return true;
+  };
+
+  const handleSignSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (handleSignInValidation()) {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: userLogin.email || user.contact,
+        password: userLogin.password || user.password,
+      });
+      setLoginData(data);
+      console.log(error);
+      navigate("/");
+    }
+  };
+
   return (
     <apiContext.Provider
       value={{
@@ -270,6 +320,10 @@ function App() {
         signingWithAuth,
         acctCreationData,
         popUpData,
+        userLogin,
+        loginData,
+        handleSignInOnchange,
+        handleSignSubmission,
       }}
     >
       <Header />

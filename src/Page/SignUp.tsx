@@ -1,15 +1,23 @@
 import { NavLink } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
 import apiContext from "@/CustomHooks/createContext";
 
 const SignUp = () => {
+  const [passwordReveal, setPasswordReveal] = useState<boolean>(false);
+
   const context = useContext(apiContext);
 
   if (!context) return;
 
   const { user, handleFormSubmissions, handleOnchange, signingWithAuth } =
     context;
+
+  const handlePasswordReveal = () => {
+    setPasswordReveal((prev) => !prev);
+  };
   return (
     <div className="w-[100%] flex">
       <section className="image md:w-[50%] md:block hidden">
@@ -37,15 +45,20 @@ const SignUp = () => {
             className="border-b-1 border-gray-400 outline-none md:w-[270px] w-full max-w-full
              pb-[5px] my-[15px] placeholder:text-[14px] text-red-600 placeholder:text-gray-400"
           />
-          <input
-            type="password"
-            name="password"
-            value={user.password}
-            onChange={handleOnchange}
-            placeholder="Password"
-            className="border-b-1 border-gray-400 outline-none md:w-[270px] w-full max-w-full
+          <div className="flex items-center">
+            <input
+              type={passwordReveal ? "text" : "password"}
+              name="password"
+              value={user.password}
+              onChange={handleOnchange}
+              placeholder="Password"
+              className="border-b-1 border-gray-400 outline-none md:w-[270px] w-full max-w-full
              pb-[5px] my-[15px] placeholder:text-[14px] text-red-600 placeholder:text-gray-400"
-          />
+            />
+            <div onClick={handlePasswordReveal}>
+              {passwordReveal ? <FaRegEye /> : <FaRegEyeSlash />}
+            </div>
+          </div>
           <button
             type="submit"
             className="text-center text-white bg-red-600 rounded text-[15px] md:w-[270px] w-full max-w-full py-[8px]

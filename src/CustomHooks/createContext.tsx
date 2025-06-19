@@ -34,6 +34,10 @@ export interface UseFetchResult {
   signingWithAuth: () => void;
   acctCreationData: Record<string, unknown>;
   popUpData: Record<string, unknown>;
+  userLogin: Record<string, string>;
+  loginData: Record<string, unknown>;
+  handleSignInOnchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSignSubmission: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 const apiContext = React.createContext<UseFetchResult | null>(null);
