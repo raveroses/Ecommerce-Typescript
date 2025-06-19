@@ -16,12 +16,11 @@ import Login from "./Page/Logn";
 import About from "./Page/About";
 import React from "react";
 import ScrollToTop from "./Component/ScrollToTop";
-
 import { createClient } from "@supabase/supabase-js";
-const supabase = createClient(
-  "https://wxijzyfbmmolulveeufe.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4aWp6eWZibW1vbHVsdmVldWZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyMDk4OTEsImV4cCI6MjA2NTc4NTg5MX0.zahPGgGGf2rnzQgOiC3Bn6seO_l13avPsK9HjIsH9yI"
-);
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 type UserType = {
   userName: string;
