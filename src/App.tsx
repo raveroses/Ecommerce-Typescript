@@ -1,5 +1,5 @@
 import Header from "./Component/Header";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./Page/Home";
 import Footer from "./Component/Footer";
 import useFetch from "./CustomHooks/useFetch";
@@ -14,8 +14,42 @@ import type { wishListPlusCount } from "./CustomHooks/createContext";
 import { toast } from "react-toastify";
 import Login from "./Page/Logn";
 import About from "./Page/About";
+import React from "react";
+import ScrollToTop from "./Component/ScrollToTop";
+
+import { createClient } from "@supabase/supabase-js";
+const supabase = createClient(
+  "https://wxijzyfbmmolulveeufe.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind4aWp6eWZibW1vbHVsdmVldWZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAyMDk4OTEsImV4cCI6MjA2NTc4NTg5MX0.zahPGgGGf2rnzQgOiC3Bn6seO_l13avPsK9HjIsH9yI"
+);
+
+type UserType = {
+  userName: string;
+  contact: string;
+  password: string;
+};
 function App() {
+  const navigate = useNavigate();
   const { product, loading } = useFetch("https://fakestoreapi.com/products");
+  const [acctCreationData, setAccountCreationData] = useState(() => {
+    try {
+      const stored = localStorage.getItem("acctData");
+      return stored ? JSON.parse(stored) : {};
+    } catch (e) {
+      console.error("Invalid JSON in localStorage:", e);
+      return {};
+    }
+  });
+
+  const [popUpData, setPopUpData] = useState(() => {
+    try {
+      const stored = localStorage.getItem("popUpData");
+      return stored ? JSON.parse(stored) : {};
+    } catch (e) {
+      console.error("Invalid JSON in localStorage:", e);
+      return {};
+    }
+  });
   const [duplicateArray, setDuplicateArray] = useState<detailsOfProduct[]>(
     () => {
       const save = localStorage.getItem("product");
@@ -24,19 +58,28 @@ function App() {
   );
 
   const handleRetrive = (id: number) => {
-    const productCheck = product.find((product) => product.id === id);
-    if (!productCheck) return;
+    if (
+      Object.keys(acctCreationData).length > 0 ||
+      Object.keys(popUpData).length > 0
+    ) {
+      const productCheck = product.find((product) => product.id === id);
+      if (!productCheck) return;
 
-    setDuplicateArray((prev) => {
-      const alreadyExist = prev.some(
-        (product) => product.id === productCheck.id
-      );
-      if (alreadyExist) return prev;
-      const updated = [...prev, productCheck];
-      localStorage.setItem("product", JSON.stringify(updated));
-      return updated;
-    });
-    toast.success("You added product to cart succefully");
+      setDuplicateArray((prev) => {
+        const alreadyExist = prev.some(
+          (product) => product.id === productCheck.id
+        );
+        if (alreadyExist) return prev;
+        const updated = [...prev, productCheck];
+        localStorage.setItem("product", JSON.stringify(updated));
+        return updated;
+      });
+      toast.success("You added product to cart succefully");
+      navigate("/cart");
+    } else {
+      navigate("/signup");
+      return;
+    }
   };
 
   const [wishLists, setWishLists] = useState<wishListPlusCount>(() => {
@@ -48,31 +91,43 @@ function App() {
   });
 
   const handleWishList = (id: number) => {
-    const checkWishList = product.find((wishProduct) => wishProduct.id === id);
-    if (!checkWishList) return;
-
-    setWishLists((prev) => {
-      const check = prev.wishLitter.find(
-        (product) => product.id === checkWishList.id
+    if (
+      Object.keys(popUpData).length > 0 ||
+      Object.keys(acctCreationData).length > 0
+    ) {
+      const checkWishList = product.find(
+        (wishProduct) => wishProduct.id === id
       );
-      if (check) {
-        return prev;
-      }
-      const setter = {
-        ...prev,
-        wishLitter: [...prev.wishLitter, checkWishList],
-        count: prev.count + 1,
-      };
+      if (!checkWishList) return;
+      setWishLists((prev) => {
+        const check = prev.wishLitter.find(
+          (product) => product.id === checkWishList.id
+        );
+        if (check) {
+          return prev;
+        }
+        const setter = {
+          ...prev,
+          wishLitter: [...prev.wishLitter, checkWishList],
+          count: prev.count + 1,
+        };
 
-      localStorage.setItem("wishList", JSON.stringify(setter));
-      return setter;
-    });
+        localStorage.setItem("wishList", JSON.stringify(setter));
+        return setter;
+      });
+      setWishListId((prev) => ({ ...prev, [id]: checkWishList.id }));
+      navigate("/wishListPage");
+    } else {
+      navigate("/signup");
+      return;
+    }
 
     toast.success("You added your wished product successfully");
-
-    setWishListId((prev) => ({ ...prev, [id]: checkWishList.id }));
   };
-
+  console.log(Object.keys(popUpData).length > 0);
+  console.log(Object.keys(acctCreationData).length > 0);
+  console.log(acctCreationData);
+  console.log(acctCreationData);
   type placeholders = string[];
   const category: placeholders = [
     "electronics",
@@ -111,41 +166,126 @@ function App() {
   const handleModal = () => {
     setModal((prev) => !prev);
   };
-  return (
-    <BrowserRouter>
-      <apiContext.Provider
-        value={{
-          products: product,
-          loading,
-          duplicateArray,
-          handleRetrive,
-          wishList: wishLists,
-          handleWishList,
-          wishListId,
-          category,
-          handleCategory,
-          cate,
-          inputText,
-          handleSearch,
-          handleFormSubmission,
-          modal,
-          handleModal,
-        }}
-      >
-        <Header />
 
-        <Routes>
-          <Route index element={<Home />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="cart" element={<AddedCart />} />
-          <Route path="wishListPage" element={<WishListPage />} />
-          <Route path="signup" element={<SignUp />} />
-          <Route path="login" element={<Login />} />
-          <Route path="about" element={<About />} />
-        </Routes>
-      </apiContext.Provider>
+  // AUTHENTICATION PAGES
+
+  const [user, setUser] = useState<UserType>(() => {
+    try {
+      const stored = localStorage.getItem("user");
+      return stored
+        ? JSON.parse(stored)
+        : {
+            userName: "",
+            contact: "",
+            password: "",
+          };
+    } catch (e) {
+      console.log("Invalid passage", e);
+      return {
+        userName: "",
+        contact: "",
+        password: "",
+      };
+    }
+  });
+  const handleValidation = () => {
+    const isPhone = /^(?:\+?234|0)\d{10}$/;
+    const isEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.(com)$/;
+
+    if (!user.userName.trim() || !user.password.trim()) return false;
+
+    const contactConversion = String(user.contact).trim();
+    const contactValidation =
+      isPhone.test(contactConversion) || isEmail.test(contactConversion);
+    if (!contactValidation) {
+      toast.error("Please enter valid mail or Number (+234 or (0))");
+      return;
+    }
+    return true;
+  };
+  const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUser((prev) => {
+      const userUpdate = { ...prev, [name]: value };
+      localStorage.setItem("user", JSON.stringify(userUpdate));
+      return userUpdate;
+    });
+  };
+
+  const handleFormSubmissions = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const isValid = handleValidation();
+      if (isValid) {
+        const { data, error } = await supabase.auth.signUp({
+          email: user.contact,
+          password: user.password,
+        });
+
+        setAccountCreationData(data);
+        localStorage.setItem("acctData", JSON.stringify(data));
+
+        navigate("/");
+      } else {
+        toast("Please fill all the fields");
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        console.log(e.message);
+      }
+    }
+  };
+
+  const signingWithAuth = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    setPopUpData(data);
+    localStorage.setItem("popUpData", JSON.stringify(data));
+
+    navigate("/");
+    console.log(data, error);
+  };
+  return (
+    <apiContext.Provider
+      value={{
+        products: product,
+        loading,
+        duplicateArray,
+        handleRetrive,
+        wishList: wishLists,
+        handleWishList,
+        wishListId,
+        category,
+        handleCategory,
+        cate,
+        inputText,
+        handleSearch,
+        handleFormSubmission,
+        modal,
+        handleModal,
+        user,
+        handleOnchange,
+        handleFormSubmissions,
+        signingWithAuth,
+        acctCreationData,
+        popUpData,
+      }}
+    >
+      <Header />
+      <ScrollToTop />
+      <Routes>
+        <Route index element={<Home />} />
+        <Route path="contact" element={<Contact />} />
+        <Route path="cart" element={<AddedCart />} />
+        <Route path="wishListPage" element={<WishListPage />} />
+        <Route path="signup" element={<SignUp />} />
+        <Route path="login" element={<Login />} />
+        <Route path="about" element={<About />} />
+      </Routes>
       <Footer />
-    </BrowserRouter>
+    </apiContext.Provider>
   );
 }
 

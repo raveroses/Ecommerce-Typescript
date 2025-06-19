@@ -28,6 +28,12 @@ export interface UseFetchResult {
   inputText: string;
   modal: boolean;
   handleModal: () => void;
+  user: Record<string, string>;
+  handleOnchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleFormSubmissions: (e: React.FormEvent<HTMLFormElement>) => void;
+  signingWithAuth: () => void;
+  acctCreationData: Record<string, unknown>;
+  popUpData: Record<string, unknown>;
 }
 
 const apiContext = React.createContext<UseFetchResult | null>(null);
