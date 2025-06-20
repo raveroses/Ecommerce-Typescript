@@ -7,7 +7,7 @@ import Contact from "./Page/Contact";
 import AddedCart from "./Page/AddedCart";
 import apiContext from "./CustomHooks/createContext";
 import type { detailsOfProduct } from "./CustomHooks/createContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import WishListPage from "./Page/WishListPage";
 import SignUp from "./Page/SignUp";
 import type { wishListPlusCount } from "./CustomHooks/createContext";
@@ -16,11 +16,7 @@ import Login from "./Page/Login";
 import About from "./Page/About";
 import React from "react";
 import ScrollToTop from "./Component/ScrollToTop";
-import { createClient } from "@supabase/supabase-js";
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
-
-const supabase = createClient(supabaseUrl, supabaseKey);
+import supabase from "./Component/supabase";
 
 type UserType = {
   userName: string;
@@ -123,10 +119,7 @@ function App() {
 
     toast.success("You added your wished product successfully");
   };
-  console.log(Object.keys(popUpData).length > 0);
-  console.log(Object.keys(acctCreationData).length > 0);
-  console.log(acctCreationData);
-  console.log(acctCreationData);
+
   type placeholders = string[];
   const category: placeholders = [
     "electronics",
@@ -213,7 +206,6 @@ function App() {
 
   const handleFormSubmissions = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     try {
       const isValid = handleValidation();
       if (isValid) {
@@ -221,7 +213,7 @@ function App() {
           email: user.contact,
           password: user.password,
         });
-
+        console.log(error);
         setAccountCreationData(data);
         localStorage.setItem("acctData", JSON.stringify(data));
 
@@ -247,22 +239,29 @@ function App() {
     console.log(data, error);
   };
 
-  const [userLogin, setUserLogin] = useState<Record<string, string>>(() => {
-    try {
-      const stored = localStorage.getItem("login");
-      return stored
-        ? JSON.parse(stored)
-        : {
-            email: "",
-            password: "",
-          };
-    } catch (e) {
-      console.log("Invalid Parse", e);
-      return {};
-    }
+  const [userLogin, setUserLogin] = useState<Record<string, string>>({
+    email: "",
+    password: "",
   });
 
+  useEffect(() => {
+    const stored = localStorage.getItem("login");
+    if (stored) {
+      try {
+        setUserLogin(JSON.parse(stored));
+      } catch (e) {
+        console.log("Invalid Parse", e);
+      }
+    } else {
+      setUserLogin({
+        email: user.contact || "",
+        password: user.password || "",
+      });
+    }
+  }, [user]);
+
   const [loginData, setLoginData] = useState({});
+  // console.log(userLogin);
   const handleSignInOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -272,7 +271,11 @@ function App() {
       return updatter;
     });
   };
-  const handleSignInValidation = () => {
+
+  const handleSignSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("Im clicked");
+
     const isEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
     if (!userLogin.password.trim() || !isEmail.test(userLogin.email.trim())) {
@@ -280,20 +283,13 @@ function App() {
       return;
     }
 
-    return true;
-  };
-
-  const handleSignSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (handleSignInValidation()) {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: userLogin.email || user.contact,
-        password: userLogin.password || user.password,
-      });
-      setLoginData(data);
-      console.log(error);
-      navigate("/");
-    }
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: userLogin.email || user.contact,
+      password: userLogin.password || user.password,
+    });
+    setLoginData(data);
+    console.log(error);
+    navigate("/");
   };
 
   return (
