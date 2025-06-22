@@ -7,7 +7,7 @@ const UserAccount = () => {
   const context = useContext(apiContext);
   if (!context) return;
 
-  const { userSession } = context;
+  const { userSession, handleLogOut, handlePasswordRequest } = context;
   console.log(userSession);
   const userImage = userSession?.user.user_metadata.picture;
   const userEmail = userSession?.user.user_metadata.email;
@@ -18,12 +18,14 @@ const UserAccount = () => {
         <div className="bg-gray-200 shadow-xl rounded p-3 ">
           <div className="flex items-center gap-3">
             <img
-              src={userImage}
+              src={userImage || "images/avatar2.jpg"}
               alt="peofile-image"
               className="rounded-full w-[50px]"
             />
 
-            <div className="text-[16px] font-semibold">{userEmail}</div>
+            <div className="text-[16px] font-semibold">
+              {userEmail || "John Doe"}
+            </div>
           </div>
           <hr className="mt-2 font-bold" />
 
@@ -39,13 +41,21 @@ const UserAccount = () => {
           <div className="bg-gray-400 rounded-full text-center p-3 ">
             <FaKey className="text-[20px]" />
           </div>
-          <h3 className="text-[16px] font-semibold">change password</h3>
+          <h3
+            className="text-[16px] font-semibold"
+            onClick={handlePasswordRequest}
+          >
+            change password
+          </h3>
         </div>
         <div className="logout flex gap-4 items-center hover:bg-gray-200 p-1 rounded transition-all ease-in-out duration-2000 cursor-pointer my-2">
           <div className="bg-gray-400 rounded-full text-center p-3 ">
             <FiLogOut className="text-[20px]" />
           </div>
-          <h3 className="text-[16px] font-semibold"> Log out</h3>
+          <h3 className="text-[16px] font-semibold" onClick={handleLogOut}>
+            {" "}
+            Log out
+          </h3>
         </div>
       </div>
     </>

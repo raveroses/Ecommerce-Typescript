@@ -21,22 +21,16 @@ import supabase from "./Component/supabase";
 import type { Session } from "@supabase/supabase-js";
 type UserType = {
   userName: string;
-  contact: string;
+  email: string;
   password: string;
 };
 function App() {
   const navigate = useNavigate();
   const { product, loading } = useFetch("https://fakestoreapi.com/products");
-  const [acctCreationData, setAccountCreationData] = useState(() => {
-    try {
-      const stored = localStorage.getItem("acctData");
-      return stored ? JSON.parse(stored) : {};
-    } catch (e) {
-      console.error("Invalid JSON in localStorage:", e);
-      return {};
-    }
+  const [userSession, setUserSession] = useState<Session | null>(() => {
+    const stored = localStorage.getItem("get");
+    return stored ? JSON.parse(stored) : null;
   });
-
   const [popUpData, setPopUpData] = useState(() => {
     try {
       const stored = localStorage.getItem("popUpData");
@@ -55,7 +49,7 @@ function App() {
 
   const handleRetrive = (id: number) => {
     if (
-      Object.keys(acctCreationData).length > 0 ||
+      (userSession && Object.keys(userSession).length > 0) ||
       Object.keys(popUpData).length > 0
     ) {
       const productCheck = product.find((product) => product.id === id);
@@ -89,7 +83,7 @@ function App() {
   const handleWishList = (id: number) => {
     if (
       Object.keys(popUpData).length > 0 ||
-      Object.keys(acctCreationData).length > 0
+      (userSession && Object.keys(userSession).length > 0)
     ) {
       const checkWishList = product.find(
         (wishProduct) => wishProduct.id === id
@@ -161,7 +155,7 @@ function App() {
   };
 
   // AUTHENTICATION PAGES
-
+  ///////BEGINING OF SIGN UP
   const [user, setUser] = useState<UserType>(() => {
     try {
       const stored = localStorage.getItem("user");
@@ -169,27 +163,25 @@ function App() {
         ? JSON.parse(stored)
         : {
             userName: "",
-            contact: "",
+            email: "",
             password: "",
           };
     } catch (e) {
       console.log("Invalid passage", e);
       return {
         userName: "",
-        contact: "",
+        email: "",
         password: "",
       };
     }
   });
   const handleValidation = () => {
-    const isPhone = /^(?:\+?234|0)\d{10}$/;
     const isEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.(com)$/;
 
     if (!user.userName.trim() || !user.password.trim()) return false;
 
-    const contactConversion = String(user.contact).trim();
-    const contactValidation =
-      isPhone.test(contactConversion) || isEmail.test(contactConversion);
+    const contactConversion = user.email.trim();
+    const contactValidation = isEmail.test(contactConversion);
     if (!contactValidation) {
       toast.error("Please enter valid mail or Number (+234 or (0))");
       return;
@@ -211,13 +203,19 @@ function App() {
       const isValid = handleValidation();
       if (isValid) {
         const { data, error } = await supabase.auth.signUp({
-          email: user.contact,
+          email: user.email,
           password: user.password,
         });
-        console.log(error);
-        setAccountCreationData(data);
-        localStorage.setItem("acctData", JSON.stringify(data));
+        if (error) {
+          toast.error(String(error));
+          console.log(error);
+        }
 
+        setUser({
+          userName: "",
+          email: "",
+          password: "",
+        });
         navigate("/login");
       } else {
         toast("Please fill all the fields");
@@ -229,6 +227,9 @@ function App() {
     }
   };
 
+  /////////ENDING OF SIGN UP
+
+  /////POP UP SIGN IN
   const signingWithAuth = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
@@ -240,29 +241,16 @@ function App() {
     console.log(data, error);
   };
 
-  const [userLogin, setUserLogin] = useState<Record<string, string>>({
-    email: "",
-    password: "",
+  ////////LOG IN SESSION
+  const [userLogin, setUserLogin] = useState<Record<string, string>>(() => {
+    try {
+      const stored = localStorage.getItem("login");
+      return stored ? JSON.parse(stored) : { email: "", password: "" };
+    } catch (e) {
+      console.log("Invalid Object", e);
+    }
   });
 
-  useEffect(() => {
-    const stored = localStorage.getItem("login");
-    if (stored) {
-      try {
-        setUserLogin(JSON.parse(stored));
-      } catch (e) {
-        console.log("Invalid Parse", e);
-      }
-    } else {
-      setUserLogin({
-        email: user.contact || "",
-        password: user.password || "",
-      });
-    }
-  }, [user]);
-
-  const [loginData, setLoginData] = useState({});
-  // console.log(userLogin);
   const handleSignInOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -272,35 +260,39 @@ function App() {
       return updatter;
     });
   };
-
+  console.log(userLogin);
   const handleSignSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Im clicked");
-
+    console.log("sign in button clicked");
     const isEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-    if (
-      !userLogin.password.trim() ||
-      !isEmail.test(userLogin.email.trim()) ||
-      user.password !== userLogin.password ||
-      user.contact !== userLogin.email
-    ) {
+    if (!userLogin.password.trim() || !isEmail.test(userLogin.email.trim())) {
       toast.error("Please,revalidate your Input");
       return;
     }
+    console.log(userLogin.password);
 
     const { data, error } = await supabase.auth.signInWithPassword({
-      email: userLogin.email || user.contact,
-      password: userLogin.password || user.password,
+      email: userLogin.email,
+      password: userLogin.password,
     });
-    setLoginData(data);
-    console.log(error);
+    if (error) {
+      toast.error(error.message);
+      console.log(error.message);
+      return;
+    }
+    if (!data.session) {
+      toast.error("Invaid login credentials");
+      return;
+    }
+
+    toast.success("Login successful");
+    setUserLogin({
+      email: "",
+      password: "",
+    });
     navigate("/");
   };
-  const [userSession, setUserSession] = useState<Session | null>(() => {
-    const stored = localStorage.getItem("get");
-    return stored ? JSON.parse(stored) : null;
-  });
 
   useEffect(() => {
     const getUser = async () => {
@@ -318,7 +310,7 @@ function App() {
     };
 
     getUser();
-  }, [user, popUpData]);
+  }, [user, popUpData, userLogin]);
 
   ///PASSWORD RESET REQUEST
   const [resetPassword, setResetPassword] = useState("");
@@ -334,7 +326,10 @@ function App() {
         redirectTo: "http://localhost:5173/passwordUpdate",
       }
     );
-    console.log(data, error);
+    console.log(error);
+    console.log(data);
+    toast.info("Reset Password Link is sent to your mail");
+    navigate("/login");
   };
 
   const handleUpdatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -342,13 +337,44 @@ function App() {
     const inputTrim = resetPassword.trim();
     if (!inputTrim) {
       toast.error("Please,Input Password");
+      return;
     }
     const { data, error } = await supabase.auth.updateUser({
       password: inputTrim,
     });
-    console.log(data, error);
+    if (error) {
+      toast.error("Password update failed");
+      console.log(error);
+      return;
+    }
+    console.log(data);
+    const loginPasswordGetter = localStorage.getItem("login");
+    if (loginPasswordGetter) {
+      const stringiFyConverter = JSON.parse(loginPasswordGetter);
+      stringiFyConverter.password = inputTrim;
+      localStorage.setItem("login", JSON.stringify(stringiFyConverter));
+    }
     toast.success("Password Updated");
     setResetPassword("");
+  };
+  const handleLogOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    localStorage.removeItem("login");
+    localStorage.removeItem("wishList");
+    localStorage.removeItem("product");
+    localStorage.removeItem("get");
+    localStorage.removeItem("user");
+    localStorage.removeItem("popUpData");
+    toast.success("Log out successful");
+  };
+  const [profileModal, setProfileModal] = useState(false);
+  const handleProfileModal = () => {
+    console.log("modal clicked");
+    setProfileModal((prev) => !prev);
   };
   return (
     <apiContext.Provider
@@ -372,10 +398,8 @@ function App() {
         handleOnchange,
         handleFormSubmissions,
         signingWithAuth,
-        acctCreationData,
         popUpData,
         userLogin,
-        loginData,
         handleSignInOnchange,
         handleSignSubmission,
         userSession,
@@ -383,6 +407,9 @@ function App() {
         handleUpdatePassword,
         handleResetPasswordOnchange,
         resetPassword,
+        handleLogOut,
+        profileModal,
+        handleProfileModal,
       }}
     >
       <Header />

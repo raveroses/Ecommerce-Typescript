@@ -37,11 +37,11 @@ const SignUp = () => {
              pb-[5px] my-[15px] placeholder:text-[14px] text-red-600 placeholder:text-gray-400"
           />
           <input
-            type="text"
-            name="contact"
-            value={user.contact}
+            type="email"
+            name="email"
+            value={user.email}
             onChange={handleOnchange}
-            placeholder="Email or Phone Number"
+            placeholder="Email"
             className="border-b-1 border-gray-400 outline-none md:w-[270px] w-full max-w-full
              pb-[5px] my-[15px] placeholder:text-[14px] text-red-600 placeholder:text-gray-400"
           />

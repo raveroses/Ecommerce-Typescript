@@ -23,7 +23,11 @@ const PasswordUpdate = () => {
             className="md:w-70 w-60"
           />
         </div>
-        <form action="" className=" flex flex-col">
+        <form
+          action=""
+          className=" flex flex-col"
+          onSubmit={handleUpdatePassword}
+        >
           <div className="flex bg-gray-200 shadow-2xl items-center px-1 justify-between">
             <input
               type={passwordReveal ? "text" : "password"}
@@ -40,7 +44,6 @@ const PasswordUpdate = () => {
           <button
             type="submit"
             className=" bg-red-600 mx-[75px] my-5 text-white text-[14px] font-semibold cursor-pointer rounded py-2"
-            onClick={handleUpdatePassword}
           >
             Update Password
           </button>

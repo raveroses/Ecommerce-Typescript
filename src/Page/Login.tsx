@@ -12,7 +12,6 @@ const Login = () => {
   if (!context) return;
 
   const {
-    user,
     userLogin,
     handleSignInOnchange,
     handleSignSubmission,
@@ -34,7 +33,7 @@ const Login = () => {
           <input
             type="email"
             name="email"
-            value={userLogin.email || user.contact}
+            value={userLogin.email}
             placeholder="Email"
             className="border-b-1 border-gray-400 outline-none md:w-[270px] w-full max-w-full
              pb-[5px] my-[15px] placeholder:text-[14px] text-red-600 placeholder:text-gray-400"
@@ -45,7 +44,7 @@ const Login = () => {
             <input
               type={passwordReveal ? "text" : "password"}
               name="password"
-              value={userLogin.password || user.password}
+              value={userLogin.password}
               placeholder="Password"
               className="border-b-1 border-gray-400 outline-none md:w-[270px] w-full max-w-full
              pb-[5px] my-[15px] placeholder:text-[14px] text-red-600 placeholder:text-gray-400"

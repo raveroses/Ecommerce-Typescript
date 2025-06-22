@@ -33,10 +33,8 @@ export interface UseFetchResult {
   handleOnchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleFormSubmissions: (e: React.FormEvent<HTMLFormElement>) => void;
   signingWithAuth: () => void;
-  acctCreationData: Record<string, unknown>;
   popUpData: Record<string, unknown>;
   userLogin: Record<string, string>;
-  loginData: Record<string, unknown>;
   handleSignInOnchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSignSubmission: (e: React.FormEvent<HTMLFormElement>) => void;
   userSession: Session | null;
@@ -44,6 +42,9 @@ export interface UseFetchResult {
   handleUpdatePassword: (e: React.FormEvent<HTMLFormElement>) => void;
   handleResetPasswordOnchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   resetPassword: string;
+  handleLogOut: () => void;
+  profileModal: boolean;
+  handleProfileModal: () => void;
 }
 
 const apiContext = React.createContext<UseFetchResult | null>(null);

@@ -10,7 +10,8 @@ import apiContext from "@/CustomHooks/createContext";
 import { useContext } from "react";
 import { CiMenuFries } from "react-icons/ci";
 import { FaTimes } from "react-icons/fa";
-
+import UserAccount from "@/Component/UserAccount";
+import { ToastContainer, Bounce } from "react-toastify";
 const Header = () => {
   const context = useContext(apiContext);
   if (!context) {
@@ -23,6 +24,8 @@ const Header = () => {
     inputText,
     modal,
     handleModal,
+    handleProfileModal,
+    profileModal,
   } = context;
 
   return (
@@ -95,7 +98,7 @@ const Header = () => {
             <FaShoppingCart className="hidden" />
             <BsCart3 className="text-[20px] cursor-pointer" />
           </NavLink>
-          <div>
+          <div onClick={handleProfileModal}>
             <FaRegUser className="text-[20px] cursor-pointer" />
           </div>
           <div className="md:hidden block text-[25px]" onClick={handleModal}>
@@ -103,6 +106,32 @@ const Header = () => {
           </div>
         </div>
       </section>
+      <div
+        className={`fixed inset-0 bg-black opacity-40 z-10  ${
+          modal ? "block" : "hidden"
+        } `}
+      ></div>
+      <div
+        className={`absolute top-[90px] md:top-24 md:right-10 z-40 md:w-[350px] w-[100%] 
+      h-[300px] bg-white shadow-2xl p-5 rounded font-Afacad ${
+        profileModal ? "block" : "hidden"
+      }`}
+      >
+        <UserAccount />
+      </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </header>
   );
 };
