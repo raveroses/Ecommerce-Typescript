@@ -1,0 +1,66 @@
+import apiContext from "@/CustomHooks/createContext";
+import { useContext, useState } from "react";
+import { FaRegEye } from "react-icons/fa";
+import { FaRegEyeSlash } from "react-icons/fa";
+import { ToastContainer, Bounce } from "react-toastify";
+const PasswordUpdate = () => {
+  const [passwordReveal, setPasswordReveal] = useState(false);
+  const handlePasswordReveal = () => {
+    setPasswordReveal((prev) => !prev);
+  };
+  const context = useContext(apiContext);
+  if (!context) return;
+
+  const { handleResetPasswordOnchange, handleUpdatePassword, resetPassword } =
+    context;
+  return (
+    <section className="flex flex-col my-10 font-Afacad">
+      <div className="mx-auto">
+        <div className="mx-10 my-10">
+          <img
+            src="images/password.gif"
+            alt="password gif"
+            className="md:w-70 w-60"
+          />
+        </div>
+        <form action="" className=" flex flex-col">
+          <div className="flex bg-gray-200 shadow-2xl items-center px-1 justify-between">
+            <input
+              type={passwordReveal ? "text" : "password"}
+              value={resetPassword}
+              onChange={handleResetPasswordOnchange}
+              placeholder="Input new password"
+              className="border-none outline-none p-2 md:w-[300px] rounded  placeholder:text-red-500 placeholder:text-center"
+            />
+            <div onClick={handlePasswordReveal}>
+              {passwordReveal ? <FaRegEye /> : <FaRegEyeSlash />}
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className=" bg-red-600 mx-[75px] my-5 text-white text-[14px] font-semibold cursor-pointer rounded py-2"
+            onClick={handleUpdatePassword}
+          >
+            Update Password
+          </button>
+        </form>
+      </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
+    </section>
+  );
+};
+
+export default PasswordUpdate;

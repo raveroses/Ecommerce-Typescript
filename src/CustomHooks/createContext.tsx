@@ -1,3 +1,4 @@
+import type { Session } from "@supabase/supabase-js";
 import React from "react";
 export interface detailsOfProduct {
   id: number;
@@ -38,6 +39,11 @@ export interface UseFetchResult {
   loginData: Record<string, unknown>;
   handleSignInOnchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSignSubmission: (e: React.FormEvent<HTMLFormElement>) => void;
+  userSession: Session | null;
+  handlePasswordRequest: () => void;
+  handleUpdatePassword: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleResetPasswordOnchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  resetPassword: string;
 }
 
 const apiContext = React.createContext<UseFetchResult | null>(null);

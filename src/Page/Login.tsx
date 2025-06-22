@@ -3,6 +3,7 @@ import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
+import { ToastContainer, Bounce } from "react-toastify";
 const Login = () => {
   const [passwordReveal, setPasswordReveal] = useState<boolean>(false);
 
@@ -10,8 +11,13 @@ const Login = () => {
 
   if (!context) return;
 
-  const { user, userLogin, handleSignInOnchange, handleSignSubmission } =
-    context;
+  const {
+    user,
+    userLogin,
+    handleSignInOnchange,
+    handleSignSubmission,
+    handlePasswordRequest,
+  } = context;
 
   const handlePasswordReveal = () => {
     setPasswordReveal((prev) => !prev);
@@ -29,7 +35,7 @@ const Login = () => {
             type="email"
             name="email"
             value={userLogin.email || user.contact}
-            placeholder="Name"
+            placeholder="Email"
             className="border-b-1 border-gray-400 outline-none md:w-[270px] w-full max-w-full
              pb-[5px] my-[15px] placeholder:text-[14px] text-red-600 placeholder:text-gray-400"
             onChange={handleSignInOnchange}
@@ -56,7 +62,10 @@ const Login = () => {
             >
               Log In
             </button>
-            <button className="cursor-pointer text-[14px] text-red-600">
+            <button
+              className="cursor-pointer text-[14px] text-red-600"
+              onClick={handlePasswordRequest}
+            >
               Forgot Password?
             </button>
           </div>
@@ -68,6 +77,19 @@ const Login = () => {
           </NavLink>
         </p>
       </section>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </div>
   );
 };

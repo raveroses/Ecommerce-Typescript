@@ -13,11 +13,12 @@ import SignUp from "./Page/SignUp";
 import type { wishListPlusCount } from "./CustomHooks/createContext";
 import { toast } from "react-toastify";
 import Login from "./Page/Login";
+import PasswordUpdate from "./Page/PasswordUpdate";
 import About from "./Page/About";
 import React from "react";
 import ScrollToTop from "./Component/ScrollToTop";
 import supabase from "./Component/supabase";
-
+import type { Session } from "@supabase/supabase-js";
 type UserType = {
   userName: string;
   contact: string;
@@ -278,7 +279,12 @@ function App() {
 
     const isEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
-    if (!userLogin.password.trim() || !isEmail.test(userLogin.email.trim())) {
+    if (
+      !userLogin.password.trim() ||
+      !isEmail.test(userLogin.email.trim()) ||
+      user.password !== userLogin.password ||
+      user.contact !== userLogin.email
+    ) {
       toast.error("Please,revalidate your Input");
       return;
     }
@@ -291,7 +297,59 @@ function App() {
     console.log(error);
     navigate("/");
   };
+  const [userSession, setUserSession] = useState<Session | null>(() => {
+    const stored = localStorage.getItem("get");
+    return stored ? JSON.parse(stored) : null;
+  });
 
+  useEffect(() => {
+    const getUser = async () => {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error) {
+        console.error("Error fetching session:", error.message);
+        return;
+      }
+
+      if (data.session) {
+        setUserSession(data.session);
+        localStorage.setItem("get", JSON.stringify(data.session));
+      }
+    };
+
+    getUser();
+  }, [user, popUpData]);
+
+  ///PASSWORD RESET REQUEST
+  const [resetPassword, setResetPassword] = useState("");
+  const handleResetPasswordOnchange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setResetPassword(e.target.value);
+  };
+  const handlePasswordRequest = async () => {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(
+      userLogin.email,
+      {
+        redirectTo: "http://localhost:5173/passwordUpdate",
+      }
+    );
+    console.log(data, error);
+  };
+
+  const handleUpdatePassword = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const inputTrim = resetPassword.trim();
+    if (!inputTrim) {
+      toast.error("Please,Input Password");
+    }
+    const { data, error } = await supabase.auth.updateUser({
+      password: inputTrim,
+    });
+    console.log(data, error);
+    toast.success("Password Updated");
+    setResetPassword("");
+  };
   return (
     <apiContext.Provider
       value={{
@@ -320,6 +378,11 @@ function App() {
         loginData,
         handleSignInOnchange,
         handleSignSubmission,
+        userSession,
+        handlePasswordRequest,
+        handleUpdatePassword,
+        handleResetPasswordOnchange,
+        resetPassword,
       }}
     >
       <Header />
@@ -332,6 +395,7 @@ function App() {
         <Route path="signup" element={<SignUp />} />
         <Route path="login" element={<Login />} />
         <Route path="about" element={<About />} />
+        <Route path="passwordUpdate" element={<PasswordUpdate />} />
       </Routes>
       <Footer />
     </apiContext.Provider>
