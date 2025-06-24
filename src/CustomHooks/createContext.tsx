@@ -45,6 +45,10 @@ export interface UseFetchResult {
   handleLogOut: () => void;
   profileModal: boolean;
   handleProfileModal: () => void;
+  handleProfileImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  triggerFileSelect: () => void;
+  imageUrl: { [key: string]: string };
 }
 
 const apiContext = React.createContext<UseFetchResult | null>(null);

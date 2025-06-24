@@ -7,7 +7,7 @@ import Contact from "./Page/Contact";
 import AddedCart from "./Page/AddedCart";
 import apiContext from "./CustomHooks/createContext";
 import type { detailsOfProduct } from "./CustomHooks/createContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import WishListPage from "./Page/WishListPage";
 import SignUp from "./Page/SignUp";
 import type { wishListPlusCount } from "./CustomHooks/createContext";
@@ -65,7 +65,6 @@ function App() {
         return updated;
       });
       toast.success("You added product to cart succefully");
-      navigate("/cart");
     } else {
       navigate("/signup");
       return;
@@ -106,7 +105,6 @@ function App() {
         return setter;
       });
       setWishListId((prev) => ({ ...prev, [id]: checkWishList.id }));
-      navigate("/wishListPage");
     } else {
       navigate("/signup");
       return;
@@ -357,6 +355,15 @@ function App() {
     toast.success("Password Updated");
     setResetPassword("");
   };
+
+  const [imageUrl, setImageUrl] = useState<{ urls: string }>(() => {
+    try {
+      const stored = localStorage.getItem("image");
+      return stored ? JSON.parse(stored) : { urls: "" };
+    } catch {
+      return { urls: "" };
+    }
+  });
   const handleLogOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -369,6 +376,9 @@ function App() {
     localStorage.removeItem("get");
     localStorage.removeItem("user");
     localStorage.removeItem("popUpData");
+    localStorage.removeItem("image");
+    setImageUrl({ urls: "" });
+    setUserLogin({ email: "" });
     toast.success("Log out successful");
   };
   const [profileModal, setProfileModal] = useState(false);
@@ -376,6 +386,38 @@ function App() {
     console.log("modal clicked");
     setProfileModal((prev) => !prev);
   };
+
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleProfileImageChange = async () => {
+    const file = inputRef?.current?.files?.[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "profile");
+    formData.append("cloud_name", "diptafc1s");
+
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/diptafc1s/image/upload",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    const data = await res.json();
+    const imageUrls = data.secure_url;
+    setImageUrl({ urls: imageUrls });
+    localStorage.setItem("image", JSON.stringify({ urls: imageUrls }));
+
+    console.log("Image uploaded:", data.secure_url);
+  };
+
+  const triggerFileSelect = () => {
+    inputRef.current?.click();
+  };
+
   return (
     <apiContext.Provider
       value={{
@@ -410,6 +452,10 @@ function App() {
         handleLogOut,
         profileModal,
         handleProfileModal,
+        handleProfileImageChange,
+        inputRef,
+        triggerFileSelect,
+        imageUrl,
       }}
     >
       <Header />

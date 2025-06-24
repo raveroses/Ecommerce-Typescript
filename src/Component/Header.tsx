@@ -113,7 +113,7 @@ const Header = () => {
       ></div>
       <div
         className={`absolute top-[90px] md:top-24 md:right-10 z-40 md:w-[350px] w-[100%] 
-      h-[300px] bg-white shadow-2xl p-5 rounded font-Afacad ${
+      h-[350px] bg-white shadow-2xl p-5 rounded font-Afacad ${
         profileModal ? "block" : "hidden"
       }`}
       >

@@ -19,7 +19,7 @@ const ProductListing = () => {
   ];
 
   useEffect(() => {
-    const nextMonth = new Date(2025, 5, 8, 0, 0, 0).getTime();
+    const nextMonth = new Date(2025, 7, 7, 0, 0, 0).getTime();
 
     const intervalId = setInterval(() => {
       const now = new Date().getTime();

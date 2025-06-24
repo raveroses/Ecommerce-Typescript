@@ -16,18 +16,18 @@ const WishListPage = () => {
   const mappProduct = wishList.wishLitter.map((product, index) => {
     return (
       <div
-        className="group bg-gray-100 w-full md:w-[250px] shadow-xl p-[10px] rounded-xl cursor-pointer mb-[40px] mb-0"
+        className="group bg-gray-100 w-full md:w-[250px] shadow-xl md:p-[10px] rounded-xl cursor-pointer mb-[20px] "
         key={index}
       >
-        <div className="anotherBackground flex gap-[50px] md:gap-[5px]  bg-gray-300 p-[10px] rounded">
-          <div className="percent w-[30px] h-[15px] text-[10px] bg-red-600 rounded text-center ">
+        <div className="anotherBackground flex gap-[10px] md:gap-[5px] bg-gray-300 p-[10px] rounded">
+          <div className="percent w-[30px] h-[15px] text-[10px] bg-red-600 rounded text-center  ">
             20%
           </div>
           <div className="productImage">
             <img
               src={product.image}
               alt="product-image"
-              className="object-center rounded-2xl w-[200px] h-[180px] md:h-[160px] gap-[100px]"
+              className="object-cover object-center rounded-2xl w-[230px] h-[150px] md:h-[160px]"
             />
           </div>
           <div
@@ -41,21 +41,22 @@ const WishListPage = () => {
             )}
           </div>
         </div>
-        <div className="addToCartPart">
+        <div className="addToCartPart p-[7px]">
           <button
-            className="invisible group-hover:visible bg-black text-white w-full md:h-[30px] h-[40px] text-center font-semibold cursor-pointer"
+            className="block md:invisible md:group-hover:visible bg-black text-white w-full
+             md:h-[30px] h-[30px] text-center font-semibold cursor-pointer"
             onClick={() => handleRetrive(product.id)}
           >
             Add to Cart
           </button>
-          <div className="productName text-[12px] font-semibold pt-[5px]">
+          <div className="productName text-[12px] font-semibold md:pt-[5px] ">
             {product.title}
           </div>
           <div className="formerPriceAndNewPrice flex gap-[20px] text-[14px] font-semibold">
             <div className="newPrice text-red-600">{product.price}</div>
             <div className="oldPrice line-through text-gray-500">$1076.30</div>
           </div>
-          <div className="star flex text-yellow-500">
+          <div className="star flex text-yellow-500 text-[12px]">
             <FaStar />
             <FaStar />
             <FaStar />
@@ -70,7 +71,9 @@ const WishListPage = () => {
   console.log(wishList.wishLitter);
   return (
     <div className="font-Afacad ">
-      <div className="grid grid-col-1 justify-center md:grid-cols-4 gap-[25px] md:gap-[10px my-[50px]">
+      <div
+        className={`grid grid-cols-2 md:grid-cols-5 gap-[10px] md:gap-[20px] my-[50px] mx-2`}
+      >
         {loading ? <p>Loading....</p> : mappProduct}
       </div>
 
