@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProductType from "@/types/ProductType";
+import apiContext from "@/CustomHooks/createContext";
 type flashsales = {
   dayNumber: number;
   dayString: string;
@@ -59,6 +60,11 @@ const ProductListing = () => {
     );
   });
 
+  const context = useContext(apiContext);
+
+  if (!context) return;
+
+  const { sectionRef } = context;
   return (
     <div className="md:mx-[33px] md:my-[50px] mx-[5px] my-[30px] ">
       <div className="todays flex items-center gap-[10px]">
@@ -70,7 +76,7 @@ const ProductListing = () => {
         <div className="text-[22px] font-bold md:text-[26px] ">Flash Sales</div>
         <div className="time flex gap-[10px]">{flashSalesCount}</div>
       </section>
-      <section className="product">
+      <section className="product" ref={sectionRef}>
         <ProductType />
       </section>
     </div>

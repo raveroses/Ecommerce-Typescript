@@ -49,6 +49,7 @@ export interface UseFetchResult {
   inputRef: React.RefObject<HTMLInputElement | null>;
   triggerFileSelect: () => void;
   imageUrl: { [key: string]: string };
+  sectionRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const apiContext = React.createContext<UseFetchResult | null>(null);

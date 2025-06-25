@@ -126,12 +126,15 @@ function App() {
     "men's clothing",
     "women's clothing",
   ];
-
+  const sectionRef = useRef<HTMLDivElement | null>(null);
   const [cate, setCate] = useState<detailsOfProduct[]>([]);
   const handleCategory = (categoryId: string) => {
     const checkCategory = product.filter((cat) => cat.category === categoryId);
     if (checkCategory) {
       setCate(checkCategory);
+    }
+    if (sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -459,6 +462,7 @@ function App() {
         inputRef,
         triggerFileSelect,
         imageUrl,
+        sectionRef,
       }}
     >
       <Header />

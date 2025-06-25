@@ -11,7 +11,9 @@ const Home = () => {
   return (
     <div className="font-Afacad relative">
       <Category />
-      <ProductListing />
+      <div>
+        <ProductListing />
+      </div>
       <ImageBanner />
       {/* <div
         className={`fixed inset-0 bg-black opacity-40 z-10  ${
