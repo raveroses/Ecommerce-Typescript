@@ -17,7 +17,7 @@ import About from "./Page/About";
 import React from "react";
 import ScrollToTop from "./Component/ScrollToTop";
 import { Bounce, toast, ToastContainer } from "react-toastify";
-import supabase from "./Component/supabase";
+import supabase from "./Component/Supabase";
 import type { Session } from "@supabase/supabase-js";
 type UserType = {
   userName: string;
