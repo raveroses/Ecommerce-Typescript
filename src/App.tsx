@@ -328,7 +328,7 @@ function App() {
     const { data, error } = await supabase.auth.resetPasswordForEmail(
       userLogin.email,
       {
-        redirectTo: "http://localhost:5173/passwordUpdate",
+        redirectTo: "https://shoppystore-lac.vercel.app/passwordUpdate",
       }
     );
     console.log(error);
