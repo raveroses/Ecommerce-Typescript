@@ -40,6 +40,7 @@ function App() {
       return {};
     }
   });
+
   const [duplicateArray, setDuplicateArray] = useState<detailsOfProduct[]>(
     () => {
       const save = localStorage.getItem("product");
@@ -64,7 +65,10 @@ function App() {
         localStorage.setItem("product", JSON.stringify(updated));
         return updated;
       });
-      toast.success("You added product to cart succefully");
+
+      toast.success("You added product to cart succefully", {
+        [id]: `add-cart-${id}`,
+      });
     } else {
       navigate("/signup");
       return;
@@ -105,7 +109,10 @@ function App() {
         return setter;
       });
       setWishListId((prev) => ({ ...prev, [id]: checkWishList.id }));
-      toast.success("You added your wished product successfully");
+
+      toast.success("You added your wished product successfully", {
+        [id]: `add-wish-${id}`,
+      });
     } else {
       navigate("/signup");
       return;
@@ -412,6 +419,8 @@ function App() {
     inputRef.current?.click();
   };
 
+  const isUserLoggedIn = userSession?.user.email;
+
   return (
     <apiContext.Provider
       value={{
@@ -459,7 +468,7 @@ function App() {
         <Route path="contact" element={<Contact />} />
         <Route path="cart" element={<AddedCart />} />
         <Route path="wishListPage" element={<WishListPage />} />
-        <Route path="signup" element={<SignUp />} />
+        {!isUserLoggedIn && <Route path="signup" element={<SignUp />} />}
         <Route path="login" element={<Login />} />
         <Route path="about" element={<About />} />
         <Route path="passwordUpdate" element={<PasswordUpdate />} />
@@ -478,6 +487,7 @@ function App() {
         pauseOnHover
         theme="light"
         transition={Bounce}
+        limit={1}
       />
     </apiContext.Provider>
   );
