@@ -101,7 +101,7 @@ const Header = () => {
             <FaRegUser className="text-[20px] cursor-pointer" />
           </div>
           <div className="md:hidden block text-[25px]" onClick={handleModal}>
-            {modal ? <FaTimes /> : <CiMenuFries />}
+            <CiMenuFries />
           </div>
         </div>
       </section>

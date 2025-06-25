@@ -54,7 +54,6 @@ const Navbar = (element: List) => {
           </li>
         );
       });
-  // nav.list.
   return <>{ListMap}</>;
 };
 export default Navbar;
