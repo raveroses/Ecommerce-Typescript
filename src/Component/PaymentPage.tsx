@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PaystackButton } from "react-paystack";
-import { toast, ToastContainer, Bounce } from "react-toastify";
+import { toast } from "react-toastify";
 const paystackPublicKey = import.meta.env.VITE_PAYSTACK_PUBLIC;
 
 const PaymentPage = ({ finalTotal }: Record<string, number>) => {
@@ -35,7 +35,7 @@ const PaymentPage = ({ finalTotal }: Record<string, number>) => {
       amount: finalTotal * 100,
       publicKey: paystackPublicKey,
       text: "Pay",
-      onSuccess: (ref: any) => toast.success("Payment successful!"),
+      onSuccess: () => toast.success("Payment successful!"),
       onClose: () => toast.error("Payment closed"),
     };
 
@@ -106,10 +106,7 @@ const PaymentPage = ({ finalTotal }: Record<string, number>) => {
           className="border-none outline-none bg-gray-200 md:py-1 py-4  rounded px-[7px] pb-1"
           onChange={handleOnchange}
         />
-        <section
-          className="md:w-[150px] mx-auto border-1 border-red-600 rounded p-4 shadow-2xl md:my-3 my-1 "
-          onChange={handleOnchange}
-        >
+        <section className="md:w-[150px] mx-auto border-1 border-red-600 rounded p-4 shadow-2xl md:my-3 my-1 ">
           <div className="flex justify-between">
             <h3 className="text-red-600 text-[14px] font-bold">Total</h3>
             <h3 className="text-[14px]">${finalTotal}</h3>
@@ -126,19 +123,6 @@ const PaymentPage = ({ finalTotal }: Record<string, number>) => {
           )}
         </section>
       </form>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
     </section>
   );
 };

@@ -24,31 +24,65 @@ export default tseslint.config({
   languageOptions: {
     // other options...
     parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
       tsconfigRootDir: import.meta.dirname,
     },
   },
-})
+});
 ```
 
 You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
 ```js
 // eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+import reactX from "eslint-plugin-react-x";
+import reactDom from "eslint-plugin-react-dom";
 
 export default tseslint.config({
   plugins: {
     // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
+    "react-x": reactX,
+    "react-dom": reactDom,
   },
   rules: {
     // other rules...
     // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
+    ...reactX.configs["recommended-typescript"].rules,
     ...reactDom.configs.recommended.rules,
   },
-})
+});
+```
+
+# Project Title
+
+SHOPPY STORE (E-COMMERCE WEBSITE);
+
+Shoppy store is an E-commerce website that product can be added to cart,also be added to wish list.
+it has a test fake paystack payment integrated. This is a website that allow user to shop seamlessly without any form of complication. The UI is truly clean and easy to understand.
+
+## 🚀 Demo
+
+(Optional) Add a link to a live demo or screenshots/gifs.
+
+## 📦 Features
+
+- Authentication(creae acct, login, change password and log out)
+- Add to cart
+- wish list
+  -checkout with payment page
+
+## 🛠️ Technologies Used
+
+React and Typescript.
+
+## 🧠 Getting Started
+
+npm install
+cd directory
+npm run dev
+
+### 1. Clone the repo
+
+```bash
+git clone https://github.com/raveroses/Ecommerce-Typescript
 ```

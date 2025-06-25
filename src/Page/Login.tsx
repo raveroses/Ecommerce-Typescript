@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
-import { ToastContainer, Bounce } from "react-toastify";
 const Login = () => {
   const [passwordReveal, setPasswordReveal] = useState<boolean>(false);
 
@@ -76,19 +75,6 @@ const Login = () => {
           </NavLink>
         </p>
       </section>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
     </div>
   );
 };

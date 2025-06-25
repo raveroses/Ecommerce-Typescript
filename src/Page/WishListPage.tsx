@@ -5,7 +5,6 @@ import { FaStarHalfStroke } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
-import { ToastContainer, Bounce } from "react-toastify";
 const WishListPage = () => {
   const context = useContext(apiContext);
   if (!context) throw new Error("Not available");
@@ -76,20 +75,6 @@ const WishListPage = () => {
       >
         {loading ? <p>Loading....</p> : mappProduct}
       </div>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
     </div>
   );
 };

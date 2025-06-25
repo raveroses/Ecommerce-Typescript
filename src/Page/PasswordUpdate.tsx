@@ -2,7 +2,6 @@ import apiContext from "@/CustomHooks/createContext";
 import { useContext, useState } from "react";
 import { FaRegEye } from "react-icons/fa";
 import { FaRegEyeSlash } from "react-icons/fa";
-import { ToastContainer, Bounce } from "react-toastify";
 const PasswordUpdate = () => {
   const [passwordReveal, setPasswordReveal] = useState(false);
   const handlePasswordReveal = () => {
@@ -49,19 +48,6 @@ const PasswordUpdate = () => {
           </button>
         </form>
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
     </section>
   );
 };

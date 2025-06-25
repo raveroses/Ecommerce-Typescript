@@ -23,7 +23,13 @@ const UserAccount = () => {
     imageUrl,
   } = context;
   console.log(userSession);
-  if (!userSession) return;
+  if (userSession === null) {
+    return (
+      <div className="text-center py-4">
+        <span className="text-gray-500">Logging you out...</span>
+      </div>
+    );
+  }
 
   const userImage = userSession?.user.user_metadata.picture;
   const userEmail = userSession?.user.user_metadata.email;
@@ -31,7 +37,7 @@ const UserAccount = () => {
   const userName = userEmail.slice(0, UserNameFinder);
 
   return (
-    <section>
+    <>
       <div className={`${profile ? "hidden" : "block"}`}>
         <div>
           <div className="bg-gray-200 shadow-xl rounded p-3 ">
@@ -39,7 +45,7 @@ const UserAccount = () => {
               <img
                 src={userImage || imageUrl.urls || "images/avatar2.jpg"}
                 alt="peofile-image"
-                className="rounded-full w-[50px] object-cover object-center w-[50px] h-[50px]"
+                className="rounded-full object-cover object-center w-[50px] h-[50px]"
               />
 
               <div className="text-[16px] font-semibold">
@@ -92,7 +98,7 @@ const UserAccount = () => {
             <img
               src={imageUrl.urls || userImage || "images/avatar2.jpg"}
               alt="profile-image"
-              className=" rounded-full md:w-[80px] w-40 h-[160px] object-cover object-center border-4 border-gray-300 "
+              className=" rounded-full md:w-[160px] w-40 h-[160px] object-cover object-center border-4 border-gray-300 "
             />
           </div>
           <input
@@ -120,7 +126,7 @@ const UserAccount = () => {
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 };
 

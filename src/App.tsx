@@ -11,12 +11,12 @@ import { useState, useEffect, useRef } from "react";
 import WishListPage from "./Page/WishListPage";
 import SignUp from "./Page/SignUp";
 import type { wishListPlusCount } from "./CustomHooks/createContext";
-import { toast } from "react-toastify";
 import Login from "./Page/Login";
 import PasswordUpdate from "./Page/PasswordUpdate";
 import About from "./Page/About";
 import React from "react";
 import ScrollToTop from "./Component/ScrollToTop";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 import supabase from "./Component/supabase";
 import type { Session } from "@supabase/supabase-js";
 type UserType = {
@@ -105,12 +105,11 @@ function App() {
         return setter;
       });
       setWishListId((prev) => ({ ...prev, [id]: checkWishList.id }));
+      toast.success("You added your wished product successfully");
     } else {
       navigate("/signup");
       return;
     }
-
-    toast.success("You added your wished product successfully");
   };
 
   type placeholders = string[];
@@ -204,6 +203,7 @@ function App() {
           email: user.email,
           password: user.password,
         });
+        console.log(data);
         if (error) {
           toast.error(String(error));
           console.log(error);
@@ -370,13 +370,7 @@ function App() {
       toast.error(error.message);
       return;
     }
-    localStorage.removeItem("login");
-    localStorage.removeItem("wishList");
-    localStorage.removeItem("product");
-    localStorage.removeItem("get");
-    localStorage.removeItem("user");
-    localStorage.removeItem("popUpData");
-    localStorage.removeItem("image");
+    localStorage.clear();
     setImageUrl({ urls: "" });
     setUserLogin({ email: "" });
     toast.success("Log out successful");
@@ -471,6 +465,20 @@ function App() {
         <Route path="passwordUpdate" element={<PasswordUpdate />} />
       </Routes>
       <Footer />
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </apiContext.Provider>
   );
 }

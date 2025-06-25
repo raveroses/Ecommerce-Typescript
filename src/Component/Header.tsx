@@ -11,7 +11,6 @@ import { useContext } from "react";
 import { CiMenuFries } from "react-icons/ci";
 import { FaTimes } from "react-icons/fa";
 import UserAccount from "@/Component/UserAccount";
-import { ToastContainer, Bounce } from "react-toastify";
 const Header = () => {
   const context = useContext(apiContext);
   if (!context) {
@@ -119,19 +118,6 @@ const Header = () => {
       >
         <UserAccount />
       </div>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
     </header>
   );
 };

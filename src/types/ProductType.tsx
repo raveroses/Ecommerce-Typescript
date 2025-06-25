@@ -3,7 +3,6 @@ import { FaStarHalfStroke } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
-import { ToastContainer, Bounce } from "react-toastify";
 import apiContext from "@/CustomHooks/createContext";
 import { useContext } from "react";
 
@@ -146,20 +145,6 @@ const ProductType = () => {
       >
         {CategoryDisplay}
       </div>
-
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-        transition={Bounce}
-      />
     </div>
   );
 };
