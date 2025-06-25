@@ -159,6 +159,18 @@ function App() {
   const [modal, setModal] = useState<boolean>(false);
   const handleModal = () => {
     setModal((prev) => !prev);
+    setProfileModal(false);
+  };
+  const [click, setClick] = useState<string>("");
+  const handleClickedSign = (item: string) => {
+    setClick(item);
+    setModal(false);
+    setProfileModal(false);
+  };
+
+  const handleHeart = () => {
+    setModal(false);
+    setProfileModal(false);
   };
 
   // AUTHENTICATION PAGES
@@ -463,6 +475,9 @@ function App() {
         triggerFileSelect,
         imageUrl,
         sectionRef,
+        click,
+        handleClickedSign,
+        handleHeart,
       }}
     >
       <Header />

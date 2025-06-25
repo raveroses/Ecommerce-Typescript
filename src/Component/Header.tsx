@@ -25,6 +25,7 @@ const Header = () => {
     handleModal,
     handleProfileModal,
     profileModal,
+    handleHeart,
   } = context;
 
   return (
@@ -77,7 +78,8 @@ const Header = () => {
               value={inputText}
               type="text"
               placeholder="What are you looking for?"
-              className="outline-none border-none placeholder:text-[13px] w-[80%] md:static absolute top-[60px] md:top-[0px] right-[120px] md:right-0"
+              className="outline-none bg-gray-200 border-none placeholder:text-[13px] w-[80%] md:static absolute top-[60px] md:top-[0px] 
+              right-[120px] md:right-0"
               onChange={handleSearch}
             />
             <button type="submit" className="text-[25px] md:text-[20px]">
@@ -85,7 +87,7 @@ const Header = () => {
             </button>
           </form>
 
-          <div className="md:relative">
+          <div className="md:relative" onClick={handleHeart}>
             <p className="text-center font-semibold text-red-600 md:static absolute top-[9px] right-[104px]">
               {wishList.count}
             </p>
@@ -93,7 +95,8 @@ const Header = () => {
               <FaRegHeart className="md:text-[20px] text-[25px] cursor-pointer" />
             </NavLink>
           </div>
-          <NavLink to={"/cart"} className="">
+
+          <NavLink to={"/cart"} className="" onClick={handleHeart}>
             <FaShoppingCart className="hidden" />
             <BsCart3 className="text-[20px] cursor-pointer" />
           </NavLink>

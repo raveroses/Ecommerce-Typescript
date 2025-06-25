@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useContext } from "react";
 import apiContext from "@/CustomHooks/createContext";
@@ -7,15 +6,10 @@ type List = {
 };
 
 const Navbar = (element: List) => {
-  const [click, setClick] = useState<string>("");
-  const handleClickedSign = (item: string) => {
-    setClick(item);
-  };
-
   const context = useContext(apiContext);
   if (!context) return;
 
-  const { userSession } = context;
+  const { userSession, click, handleClickedSign } = context;
 
   const isUserLoggedIn = userSession?.user.email;
 
@@ -54,6 +48,7 @@ const Navbar = (element: List) => {
           </li>
         );
       });
+  // nav.list.
   return <>{ListMap}</>;
 };
 export default Navbar;

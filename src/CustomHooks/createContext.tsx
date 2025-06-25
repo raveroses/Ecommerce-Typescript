@@ -50,6 +50,9 @@ export interface UseFetchResult {
   triggerFileSelect: () => void;
   imageUrl: { [key: string]: string };
   sectionRef: React.RefObject<HTMLDivElement | null>;
+  click: string;
+  handleClickedSign: (item: string) => void;
+  handleHeart: () => void;
 }
 
 const apiContext = React.createContext<UseFetchResult | null>(null);
