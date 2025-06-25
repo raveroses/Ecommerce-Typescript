@@ -50,7 +50,7 @@ function App() {
 
   const handleRetrive = (id: number) => {
     if (
-      (userSession && Object.keys(userSession).length > 0) ||
+      (userSession?.user.email && Object.keys(userSession).length > 0) ||
       Object.keys(popUpData).length > 0
     ) {
       const productCheck = product.find((product) => product.id === id);
@@ -86,7 +86,7 @@ function App() {
   const handleWishList = (id: number) => {
     if (
       Object.keys(popUpData).length > 0 ||
-      (userSession && Object.keys(userSession).length > 0)
+      (userSession?.user.email && Object.keys(userSession).length > 0)
     ) {
       const checkWishList = product.find(
         (wishProduct) => wishProduct.id === id
