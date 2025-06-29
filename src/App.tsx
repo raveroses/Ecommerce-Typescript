@@ -265,16 +265,16 @@ function App() {
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
+        options: {
+          redirectTo: "http://localhost:5173/auth/callback",
+        },
       });
+
       setPopUpData(data);
       console.log(error);
       localStorage.setItem("popUpData", JSON.stringify(data));
-
-      navigate("/");
     } catch (e) {
       console.log("Invaid signUp", e);
-    } finally {
-      setLoadings(false);
     }
   };
 
@@ -335,19 +335,20 @@ function App() {
     const getUser = async () => {
       const { data, error } = await supabase.auth.getSession();
 
-      if (error) {
-        console.error("Error fetching session:", error.message);
+      if (data?.session) {
+        setUserSession(data.session);
+        localStorage.setItem("get", JSON.stringify(data.session));
+        navigate("/");
+      } else {
+        console.error("Error fetching session:", error);
         return;
       }
 
-      if (data.session) {
-        setUserSession(data.session);
-        localStorage.setItem("get", JSON.stringify(data.session));
-      }
+      setLoadings(false);
     };
 
     getUser();
-  }, [user, popUpData, userLogin]);
+  }, [navigate]);
 
   ///PASSWORD RESET REQUEST
   const [resetPassword, setResetPassword] = useState("");
@@ -500,7 +501,6 @@ function App() {
         click,
         handleClickedSign,
         handleHeart,
-        loadings,
       }}
     >
       <Header />
