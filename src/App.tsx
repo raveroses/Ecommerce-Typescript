@@ -456,6 +456,8 @@ function App() {
     <Loading />;
   }
 
+  console.log(loadings);
+
   return (
     <apiContext.Provider
       value={{
