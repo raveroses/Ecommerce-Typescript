@@ -501,6 +501,7 @@ function App() {
         click,
         handleClickedSign,
         handleHeart,
+        loadings,
       }}
     >
       <Header />

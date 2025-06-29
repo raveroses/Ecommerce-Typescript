@@ -7,19 +7,27 @@ const Home = () => {
   const context = useContext(apiContext);
   if (!context) return;
 
-  // const { modal, profileModal } = context;
+  const { loadings } = context;
   return (
     <div className="font-Afacad relative">
-      <Category />
+      {loadings ? (
+        <div className="flex items-center justify-center h-screen">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      ) : (
+        <>
+          <Category />
+          <div>
+            <ProductListing />
+          </div>
+          <ImageBanner />
+        </>
+      )}
+      {/* <Category />
       <div>
         <ProductListing />
       </div>
-      <ImageBanner />
-      {/* <div
-        className={`fixed inset-0 bg-black opacity-40 z-10  ${
-          modal || profileModal ? "block" : "hidden"
-        } `}
-      ></div> */}
+      <ImageBanner /> */}
     </div>
   );
 };
