@@ -275,6 +275,7 @@ function App() {
       localStorage.setItem("popUpData", JSON.stringify(data));
     } catch (e) {
       console.log("Invaid signUp", e);
+      setLoadings(false);
     }
   };
 
@@ -453,12 +454,12 @@ function App() {
   };
 
   const isUserLoggedIn = userSession?.user.email;
-  if (loadings) {
-    <Loading />;
-  }
 
   console.log(loadings);
 
+  if (loadings) {
+    <Loading />;
+  }
   return (
     <apiContext.Provider
       value={{
@@ -501,6 +502,7 @@ function App() {
         click,
         handleClickedSign,
         handleHeart,
+        loadings,
       }}
     >
       <Header />

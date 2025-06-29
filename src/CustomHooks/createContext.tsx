@@ -53,6 +53,7 @@ export interface UseFetchResult {
   click: string;
   handleClickedSign: (item: string) => void;
   handleHeart: () => void;
+  loadings: boolean;
 }
 
 const apiContext = React.createContext<UseFetchResult | null>(null);

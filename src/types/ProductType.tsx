@@ -3,6 +3,7 @@ import { FaStarHalfStroke } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa6";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
+import Loading from "@/Component/Loading";
 import apiContext from "@/CustomHooks/createContext";
 import { useContext } from "react";
 
@@ -128,7 +129,7 @@ const ProductType = () => {
   return (
     <div className="font-Afacad ">
       {loading ? (
-        <>loading....</>
+        <Loading />
       ) : (
         <div
           className={`grid grid-cols-2 md:justify-center md:grid-cols-4 gap-[10px] md:gap-[0px] my-[50px]  ${
