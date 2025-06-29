@@ -14,6 +14,7 @@ import type { wishListPlusCount } from "./CustomHooks/createContext";
 import Login from "./Page/Login";
 import PasswordUpdate from "./Page/PasswordUpdate";
 import About from "./Page/About";
+import Loading from "./Component/Loading";
 import React from "react";
 import ScrollToTop from "./Component/ScrollToTop";
 import { Bounce, toast, ToastContainer } from "react-toastify";
@@ -451,6 +452,9 @@ function App() {
   };
 
   const isUserLoggedIn = userSession?.user.email;
+  if (loadings) {
+    <Loading />;
+  }
 
   return (
     <apiContext.Provider
