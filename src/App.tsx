@@ -31,6 +31,8 @@ function App() {
     const stored = localStorage.getItem("get");
     return stored ? JSON.parse(stored) : null;
   });
+
+  const [toastShown, setToastShown] = useState(false);
   const [popUpData, setPopUpData] = useState(() => {
     try {
       const stored = localStorage.getItem("popUpData");
@@ -66,9 +68,14 @@ function App() {
         return updated;
       });
 
-      toast.success("You added product to cart succefully", {
-        [id]: `add-cart-${id}`,
-      });
+      if (!toastShown) {
+        setToastShown(true);
+        toast.success("You added product to cart succefully", {
+          onClose: () => {
+            setToastShown(false);
+          },
+        });
+      }
     } else {
       navigate("/signup");
       return;
@@ -110,9 +117,14 @@ function App() {
       });
       setWishListId((prev) => ({ ...prev, [id]: checkWishList.id }));
 
-      toast.success("You added your wished product successfully", {
-        [id]: `add-wish-${id}`,
-      });
+      if (!toastShown) {
+        setToastShown(true);
+        toast.success("You added your wished product successfully", {
+          onClose: () => {
+            setToastShown(false);
+          },
+        });
+      }
     } else {
       navigate("/signup");
       return;
@@ -246,7 +258,7 @@ function App() {
         console.log(e.message);
       }
     } finally {
-      setLoading(false);
+      setLoadings(false);
     }
   };
 
@@ -260,42 +272,16 @@ function App() {
         provider: "google",
       });
       setPopUpData(data);
+      console.log(error);
       localStorage.setItem("popUpData", JSON.stringify(data));
 
       navigate("/");
     } catch (e) {
       console.log("Invaid signUp", e);
     } finally {
-      setLoading(false);
+      setLoadings(false);
     }
   };
-
-  if (loadings) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <svg
-          className="animate-spin h-10 w-10 text-blue-500"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-          />
-        </svg>
-      </div>
-    );
-  }
 
   ////////LOG IN SESSION
   const [userLogin, setUserLogin] = useState<Record<string, string>>(() => {
@@ -471,6 +457,32 @@ function App() {
   };
 
   const isUserLoggedIn = userSession?.user.email;
+  if (loadings) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <svg
+          className="animate-spin h-10 w-10 text-blue-500"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            className="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            strokeWidth="4"
+          />
+          <path
+            className="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+          />
+        </svg>
+      </div>
+    );
+  }
 
   return (
     <apiContext.Provider
@@ -532,7 +544,7 @@ function App() {
 
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={1000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick={false}
@@ -542,7 +554,6 @@ function App() {
         pauseOnHover
         theme="light"
         transition={Bounce}
-        limit={1}
       />
     </apiContext.Provider>
   );
