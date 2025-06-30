@@ -1,5 +1,5 @@
 import Header from "./Component/Header";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./Page/Home";
 import Footer from "./Component/Footer";
 import useFetch from "./CustomHooks/useFetch";
@@ -7,7 +7,7 @@ import Contact from "./Page/Contact";
 import AddedCart from "./Page/AddedCart";
 import apiContext from "./CustomHooks/createContext";
 import type { detailsOfProduct } from "./CustomHooks/createContext";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type JSX } from "react";
 import WishListPage from "./Page/WishListPage";
 import SignUp from "./Page/SignUp";
 import type { wishListPlusCount } from "./CustomHooks/createContext";
@@ -15,6 +15,10 @@ import Login from "./Page/Login";
 import PasswordUpdate from "./Page/PasswordUpdate";
 import About from "./Page/About";
 import Loading from "./Component/Loading";
+import { MdDevices } from "react-icons/md";
+import { GiDiamondRing } from "react-icons/gi";
+import { FaTshirt } from "react-icons/fa";
+import { GiClothes } from "react-icons/gi";
 import React from "react";
 import ScrollToTop from "./Component/ScrollToTop";
 import { Bounce, toast, ToastContainer } from "react-toastify";
@@ -126,12 +130,24 @@ function App() {
     }
   };
 
-  type placeholders = string[];
+  type placeholders = { icon: JSX.Element; title: string }[];
   const category: placeholders = [
-    "electronics",
-    "jewelery",
-    "men's clothing",
-    "women's clothing",
+    {
+      icon: <MdDevices className="text-[25px] text-amber-600" />,
+      title: "electronics",
+    },
+    {
+      icon: <GiDiamondRing className="text-[25px] text-amber-600" />,
+      title: "jewelery",
+    },
+    {
+      icon: <FaTshirt className="text-[25px] text-amber-600" />,
+      title: "men's clothing",
+    },
+    {
+      icon: <GiClothes className="text-[25px] text-amber-600" />,
+      title: "women's clothing",
+    },
   ];
   const sectionRef = useRef<HTMLDivElement | null>(null);
   const [cate, setCate] = useState<detailsOfProduct[]>([]);

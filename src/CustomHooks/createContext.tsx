@@ -1,5 +1,5 @@
 import type { Session } from "@supabase/supabase-js";
-import React from "react";
+import React, { type JSX } from "react";
 export interface detailsOfProduct {
   id: number;
   title: string;
@@ -21,7 +21,7 @@ export interface UseFetchResult {
   wishList: wishListPlusCount;
   handleWishList: (id: number) => void;
   wishListId: { [key: string]: number };
-  category: string[];
+  category: { icon: JSX.Element; title: string }[];
   handleCategory: (categoryId: string) => void;
   cate: detailsOfProduct[];
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;

@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { MdFlashOn } from "react-icons/md";
 import ProductType from "@/types/ProductType";
 import apiContext from "@/CustomHooks/createContext";
 type flashsales = {
@@ -47,7 +48,7 @@ const ProductListing = () => {
   const flashSalesCount = flashSalesCountDown.map((item, index) => {
     return (
       <div key={index}>
-        <div className="font-bold md:text-[10px] text-[8px] text-center">
+        <div className="font-bold md:text-[10px] text-[8px] text-left">
           {item.dayString}
         </div>
         <div className="font-bold text-[22px] md:text-[30px]">
@@ -72,8 +73,13 @@ const ProductListing = () => {
         <span className="font-semibold text-[18px] text-red-500">Today's</span>
       </div>
 
-      <section className="flashsales flex md:gap-[100px] items-center justify-between md:justify-start">
-        <div className="text-[22px] font-bold md:text-[26px] ">Flash Sales</div>
+      <section className="flashsales flex  items-center justify-between md:justify-between pt-2">
+        <div className="flex items-center gap-[5px]">
+          <MdFlashOn className="text-amber-600 text-[25px]" />
+          <div className="text-[22px] font-bold md:text-[26px] ">
+            Flash Sales
+          </div>
+        </div>
         <div className="time flex gap-[10px]">{flashSalesCount}</div>
       </section>
       <section className="product" ref={sectionRef}>

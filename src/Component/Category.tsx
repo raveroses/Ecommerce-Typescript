@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
-// import "swiper/css";
 import "swiper/swiper-bundle.css";
+
 import apiContext from "@/CustomHooks/createContext";
 import { useContext } from "react";
 type placeholders = string[];
@@ -16,12 +16,17 @@ const Category = () => {
     return (
       <li
         key={index}
-        className="w-[100px] cursor-pointer 
-        md:px-[5px] md:py-[5px] text-center py-[6px]
-         md:text-left px-[7px] rounded text-[14px] md:text-[15px] hover:bg-gray-300"
-        onClick={() => handleCategory(cat)}
+        className=" w-[180px] md:w-[160px] cursor-pointer 
+        md:px-[5px] md:py-[5px] text-center py-[4px] text-center md:text-left
+         md:text-left px-[7px] rounded text-[14px] md:text-[15px] md:hover:bg-gray-300 bg-gray-300 md:bg-transparent "
+        onClick={() => handleCategory(cat.title)}
       >
-        <NavLink to={"/"}>{cat}</NavLink>
+        <NavLink to={"/"}>
+          <div className="flex items-center gap-2">
+            <div>{cat.icon}</div>
+            <div>{cat.title}</div>
+          </div>
+        </NavLink>
       </li>
     );
   });

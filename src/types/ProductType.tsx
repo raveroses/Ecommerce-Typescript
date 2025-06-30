@@ -46,7 +46,7 @@ const ProductType = () => {
         </div>
         <div className="addToCartPart p-[7px]">
           <button
-            className="block md:invisible md:group-hover:visible bg-black text-white w-full
+            className="block bg-black text-white w-full
              md:h-[30px] h-[30px] text-center font-semibold cursor-pointer"
             onClick={() => handleRetrive(product.id)}
           >
@@ -101,7 +101,7 @@ const ProductType = () => {
         </div>
         <div className="addToCartPart p-[7px]">
           <button
-            className="block md:invisible md:group-hover:visible bg-black text-white w-full 
+            className="block bg-black text-white w-full 
             md:h-[30px] h-[30px] text-center font-semibold cursor-pointer"
             onClick={() => handleRetrive(product.id)}
           >
