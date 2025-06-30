@@ -90,7 +90,7 @@ const Header = () => {
           </form>
 
           <div className="md:relative" onClick={handleHeart}>
-            <p className="text-center font-semibold text-red-600 md:static absolute top-[30px] right-[92px]">
+            <p className="text-center font-semibold text-red-600 md:static absolute top-[25px] right-[92px]">
               {wishList.count}
             </p>
 
