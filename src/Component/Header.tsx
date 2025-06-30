@@ -38,11 +38,11 @@ const Header = () => {
       </div>
 
       <section
-        className=" w-full flex justify-between items-center pt-[10px] md:px-[80px] 
+        className="flex justify-between items-center pt-[10px] w-full  md:px-[50px]
        px-[5px] border-b-1 pb-[15px] border-gray-200"
       >
-        <div className="md:font-bold text-[18px] font-bold md:text-[20px] md:w-[20%] w-[40%]">
-          <NavLink to={"/"}>Shoppy Store</NavLink>
+        <div className=" text-[18px] font-bold md:text-[20px]">
+          <NavLink to={"/"}>ShopUp</NavLink>
         </div>
 
         <div
@@ -72,20 +72,19 @@ const Header = () => {
           </ul>
         </div>
 
-        <div className=" flex  items-center gap-[5px] md:gap-[15px] w-[60%]">
+        <div className=" flex  items-center gap-[5px] md:gap-[15px]">
           <form
-            className=" md:flex items-center md:flex-row gap-[10px] md:bg-[#F5F5F5] bg-none
-             md:px-[4px] px-[2px] md:py-[6px] py-1 md:w-[50%] w-[60%] rounded border-1 border-black md:border-none"
+            className=" flex items-center gap-[3px]"
             onSubmit={handleFormSubmission}
           >
             <input
               value={inputText}
               type="text"
               placeholder="What are you looking for?"
-              className="outline-none bg-gray-200 border-none placeholder:text-[13px] w-[80%]"
+              className="outline-none placeholder:text-[13px] rounded border-1 border-black px-1 w-[130px] md:w-[200px]"
               onChange={handleSearch}
             />
-            <button type="submit" className="text-[22px] md:text-[20px]">
+            <button type="submit" className="text-[22px]">
               <IoSearch />
             </button>
           </form>

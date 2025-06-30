@@ -75,7 +75,7 @@ const ProductListing = () => {
 
       <section className="flashsales flex  items-center justify-between md:justify-between pt-2">
         <div className="flex items-center gap-[5px]">
-          <MdFlashOn className="text-amber-600 text-[25px]" />
+          <MdFlashOn className="text-amber-600 md:text-[30px] text-[25px]" />
           <div className="text-[22px] font-bold md:text-[26px] ">
             Flash Sales
           </div>
