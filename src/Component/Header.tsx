@@ -46,7 +46,7 @@ const Header = () => {
         </div>
 
         <div
-          className={` text-center w-full md:static absolute left-0 top-[100px] md:w-[40%] z-20 
+          className={` text-center md:static absolute left-0 top-[100px] md:w-[40%] w-[400px] mx-[10px] z-20 
             rounded mx-w-full md:bg-transparent bg-white md:block ${
               modal ? "block" : "hidden"
             }`}
@@ -57,7 +57,10 @@ const Header = () => {
           >
             <FaTimes />
           </div>
-          <ul className="flex w-full md:flex-row flex-col md:shadow-none shadow-xl list-none md:gap-[20px] gap-[25px] py-[15px] ">
+          <ul
+            className="flex w-full md:flex-row flex-col md:shadow-none shadow-xl list-none md:gap-[20px]
+           gap-[25px] py-[15px] "
+          >
             <Navbar
               navbarsList={[
                 { path: "/", list: "Home" },
