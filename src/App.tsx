@@ -1,5 +1,5 @@
 import Header from "./Component/Header";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Home from "./Page/Home";
 import Footer from "./Component/Footer";
 import useFetch from "./CustomHooks/useFetch";
@@ -178,6 +178,12 @@ function App() {
   const handleHeart = () => {
     setModal(false);
     setProfileModal(false);
+    navigate("/wishListPage");
+  };
+  const handleCart = () => {
+    setModal(false);
+    setProfileModal(false);
+    navigate("/cart");
   };
 
   // AUTHENTICATION PAGES
@@ -339,7 +345,6 @@ function App() {
       if (data?.session) {
         setUserSession(data.session);
         localStorage.setItem("get", JSON.stringify(data.session));
-        navigate("/");
       } else {
         console.error("Error fetching session:", error);
         return;
@@ -349,7 +354,7 @@ function App() {
     };
 
     getUser();
-  }, [navigate]);
+  }, [user, userLogin]);
 
   ///PASSWORD RESET REQUEST
   const [resetPassword, setResetPassword] = useState("");
@@ -503,6 +508,7 @@ function App() {
         handleClickedSign,
         handleHeart,
         loadings,
+        handleCart,
       }}
     >
       <Header />
